@@ -1,0 +1,562 @@
+@font-face {
+    font-family: 'Arizona-regular';
+    /*a name to be used later*/
+    src: url('../../src/font/Arizonia-Regular.ttf');
+    /*URL to font*/
+}
+
+@font-face {
+    font-family: 'Poppins-bold';
+    /*a name to be used later*/
+    src: url('../../src/font/poppins/Poppins-Bold.ttf');
+    /*URL to font*/
+}
+
+@font-face {
+    font-family: 'Poppins-regular';
+    /*a name to be used later*/
+    src: url('../../src/font/poppins/Poppins-Regular.ttf');
+    /*URL to font*/
+}
+
+@media only screen and (max-width: 600px) {
+    .titulo {
+        font-size: 20pt;
+        line-height: 0.7;
+        text-wrap: wrap !important;
+
+    }
+
+    .datepicker {
+        width: 85vw;
+    }
+
+}
+
+body {
+    font-family: "Lato", Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.8;
+    font-weight: normal;
+    background-image: url(../../src/img/bg.jpg);
+    backdrop-filter: blur(8px);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    position: relative;
+    z-index: 1;
+
+}
+
+a {
+    -webkit-transition: .3s all ease;
+    -o-transition: .3s all ease;
+    transition: .3s all ease;
+    color: #01d28e;
+    text-decoration: none;
+}
+
+a:hover,
+a:focus {
+    text-decoration: none !important;
+    outline: none !important;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+a:hover,
+a:active,
+a:focus {
+    color: #01d28e;
+    outline: none !important;
+    text-decoration: none !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5 {
+    line-height: 1.5;
+    font-weight: 400;
+    font-family: "Lato", Arial, sans-serif;
+    color: #000;
+}
+
+/* FORMULARIO*/
+.bg-primary {
+    background: #01d28e !important;
+}
+
+.ftco-section {
+    padding: 3em 0;
+}
+
+.ftco-no-pt {
+    padding-top: 0;
+}
+
+.ftco-no-pb {
+    padding-bottom: 0;
+}
+
+.heading-section {
+    font-size: 28px;
+    color: #000;
+}
+
+.img {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+.wrap {
+    width: 100%;
+    background: #ffffffb2;
+    border-radius: 5px;
+    -webkit-box-shadow: 0px 10px 34px -15px rgba(0, 0, 0, 0.24);
+    -moz-box-shadow: 0px 10px 34px -15px rgba(0, 0, 0, 0.24);
+    box-shadow: 0px 10px 34px -15px rgba(0, 0, 0, 0.24);
+    overflow-y: auto;
+    border-top-right-radius: 10px;
+    /* Borda arredondada à direita superior */
+    border-bottom-right-radius: 10px;
+    overflow-y: overlay;
+}
+
+.wrap .img {
+    height: 200px;
+}
+
+::-webkit-scrollbar {
+    width: 4px;
+    margin-right: 8px;
+    /* Largura da barra de rolagem */
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #00b573;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: #f0f0f000;
+    /* Cor da pista da barra de rolagem */
+}
+
+.hide {
+    display: none;
+    transition: opacity 3s ease-in-out;
+    opacity: 1;
+}
+
+.login-wrap {
+    position: relative;
+}
+
+.login-wrap h3 {
+    font-weight: 300;
+}
+
+.form-group {
+    position: relative;
+    z-index: 0;
+    margin-bottom: 20px !important;
+}
+
+.form-group a {
+    color: gray;
+}
+
+.form-control {
+    height: 48px;
+    background: #fff;
+    color: #000;
+    font-size: 16px;
+    border-radius: 5px;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.form-control::-webkit-input-placeholder {
+    /* Chrome/Opera/Safari */
+    color: rgba(0, 0, 0, 0.2) !important;
+}
+
+.form-control::-moz-placeholder {
+    /* Firefox 19+ */
+    color: rgba(0, 0, 0, 0.2) !important;
+}
+
+.form-control:-ms-input-placeholder {
+    /* IE 10+ */
+    color: rgba(0, 0, 0, 0.2) !important;
+}
+
+.form-control:-moz-placeholder {
+    /* Firefox 18- */
+    color: rgba(0, 0, 0, 0.2) !important;
+}
+
+.form-control:focus,
+.form-control:active {
+    outline: none !important;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border: 1px solid #01d28e;
+}
+
+.field-icon {
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+    color: rgba(0, 0, 0, 0.3);
+}
+
+.form-control-placeholder {
+    position: absolute;
+    top: 2px;
+    padding: 7px 0 0 15px;
+    -webkit-transition: all 400ms;
+    -o-transition: all 400ms;
+    transition: all 400ms;
+    opacity: .6;
+}
+
+.form-control:focus+.form-control-placeholder,
+.form-control:valid+.form-control-placeholder {
+    -webkit-transform: translate3d(0, -120%, 0);
+    transform: translate3d(0, -120%, 0);
+    padding: 7px 0 0 0;
+    opacity: 1;
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 1px;
+    color: #01d28e;
+    font-weight: 700;
+}
+
+.social-media {
+    position: relative;
+    width: 100%;
+}
+
+.social-media .social-icon {
+    display: block;
+    width: 40px;
+    height: 40px;
+    background: transparent;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    font-size: 16px;
+    margin-right: 5px;
+    border-radius: 50%;
+}
+
+.social-media .social-icon span {
+    color: #999999;
+}
+
+.social-media .social-icon:hover,
+.social-media .social-icon:focus {
+    background: #01d28e;
+}
+
+.social-media .social-icon:hover span,
+.social-media .social-icon:focus span {
+    color: #fff;
+}
+
+.checkbox-wrap {
+    display: block;
+    position: relative;
+    padding-left: 30px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.checkbox-wrap input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+    content: "\f0c8";
+    font-family: "FontAwesome";
+    position: absolute;
+    color: rgba(0, 0, 0, 0.1);
+    font-size: 20px;
+    margin-top: -4px;
+    -webkit-transition: 0.3s;
+    -o-transition: 0.3s;
+    transition: 0.3s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .checkmark:after {
+        -webkit-transition: none;
+        -o-transition: none;
+        transition: none;
+    }
+}
+
+/* Show the checkmark when checked */
+.checkbox-wrap input:checked~.checkmark:after {
+    display: block;
+    content: "\f14a";
+    font-family: "FontAwesome";
+    color: rgba(0, 0, 0, 0.2);
+}
+
+/* Style the checkmark/indicator */
+.checkbox-primary {
+    color: #01d28e;
+}
+
+.checkbox-primary input:checked~.checkmark:after {
+    color: #01d28e;
+}
+
+.btn {
+    cursor: pointer;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+    font-size: 15px;
+    padding: 10px 20px;
+}
+
+.btn:hover,
+.btn:active,
+.btn:focus {
+    outline: none;
+}
+
+.btn.btn-primary {
+    background: #01d28e !important;
+    border: 1px solid #01d28e !important;
+    color: #fff !important;
+}
+
+.btn.btn-primary:hover {
+    border: 1px solid #01d28e;
+    background: transparent;
+    color: #01d28e;
+}
+
+.btn.btn-primary.btn-outline-primary {
+    border: 1px solid #01d28e;
+    background: transparent;
+    color: #01d28e;
+}
+
+.btn.btn-primary.btn-outline-primary:hover {
+    border: 1px solid transparent;
+    background: #01d28e;
+    color: #fff;
+}
+
+.titulo {
+    font-family: 'Arizona-Regular';
+    font-size: 30pt;
+    color: #3d5b40;
+    text-wrap: nowrap;
+}
+
+.navbar-brand-text {
+    line-height: normal;
+    margin-left: 10px;
+    position: relative;
+    bottom: 5px;
+}
+
+.navbar-brand-text small {
+    display: block;
+    font-size: 10px;
+    line-height: 1;
+    text-transform: uppercase;
+}
+
+.navbar .dropdown-menu {
+    background: #fff;
+    box-shadow: 0 1rem 3rem rgba(0, 0, 0, .175);
+    border: 0;
+    display: inherit;
+    opacity: 0;
+    min-width: 9rem;
+    margin-top: 20px;
+    padding: 13px 0 10px 0;
+    transition: all 0.3s;
+    pointer-events: none;
+}
+
+.container-login100 {
+    width: 100%;
+    min-height: 100vh;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    position: relative;
+    z-index: 1;
+}
+
+.container-login100::before {
+    content: "";
+    display: block;
+    position: absolute;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    backdrop-filter: blur(5px);
+}
+
+.navbar-toggler {
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+    margin: 0;
+    width: 30px;
+    height: 35px;
+    outline: none;
+}
+
+.navbar-toggler .navbar-toggler-icon {
+    background: #fff;
+    transition: background 10ms 300ms ease;
+    display: block;
+    width: 30px;
+    height: 2px;
+    position: relative;
+}
+
+.navbar-toggler .navbar-toggler-icon:before,
+.navbar-toggler .navbar-toggler-icon:after {
+    transition: top 300ms 350ms ease, -webkit-transform 300ms 50ms ease;
+    transition: top 300ms 350ms ease, transform 300ms 50ms ease;
+    transition: top 300ms 350ms ease, transform 300ms 50ms ease, -webkit-transform 300ms 50ms ease;
+    position: absolute;
+    right: 0;
+    left: 0;
+    background: #fff;
+    width: 30px;
+    height: 2px;
+    content: '';
+}
+
+.navbar-toggler .navbar-toggler-icon::before {
+    top: -8px;
+}
+
+.navbar-toggler .navbar-toggler-icon::after {
+    top: 8px;
+}
+
+
+
+.borda {
+    border-width: medium;
+    border-style: solid;
+    border-color: #00f;
+}
+
+.borda2 {
+    border-width: medium;
+    border-style: solid;
+    border-color: rgb(255, 0, 0);
+}
+
+.center-me {
+    margin: auto;
+}
+
+
+
+/*====================== CALENDARIO DO DATEPICKER =========================*/
+.datepicker {
+    backdrop-filter: blur(8px);
+    color: #fff;
+    background-color: #3d5b4084;
+    text-shadow: 5px 5px 10px black;
+    border: 1px solid #ced4da;
+
+}
+
+.datepicker table {
+    width: 100%;
+}
+
+.datepicker th,
+.datepicker td {
+    text-align: center;
+    border-radius: 0;
+
+}
+
+.datepicker .table-condensed {
+    font-size: 0.85em;
+}
+
+.datepicker thead th {
+    background-color: #3d5b40;
+    color: #fff;
+}
+
+.datepicker .datepicker-switch:hover,
+.datepicker .next:hover,
+.datepicker .prev:hover,
+.datepicker tfoot tr th:hover {
+    background-color: #01d28e;
+}
+
+.datepicker tbody td {
+    cursor: pointer;
+}
+
+.datepicker tbody td.today {
+    background-color: #f0ad4e;
+    color: #fff;
+}
+
+.datepicker tbody td.active,
+.datepicker tbody td.active:hover {
+    background-color: #01d28e !important;
+    color: #fff;
+}

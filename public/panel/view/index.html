@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marka Aí - Painel</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+        crossorigin="anonymous"></script>
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+    <div class="row flex-nowrap">
+        <div class="col-sm-2 col-auto px-0 ps-3 collapse collapse-horizontal overflow-hidden" id="sidebar"
+            style="margin-top: 2vh; background: #3d5b40">
+            <div class="list-group border-0 text-center text-sm-start min-vh-100 mt-3" id="sidebar-menu"
+                style="background-color: #3d5b40;">
+                <a href="#" class="list-group-item border-0 d-inline-block text-truncate" style="color: white"
+                    data-bs-parent="#sidebar" data-bs-target="#sidebar" data-bs-toggle="collapse"><i
+                        class="fa fa-dashboard"></i> <span class="d-none d-sm-inline">Painel Completo
+                    </span> </a>
+
+                <a href="#" class="list-group-item border-0 d-inline-block text-truncate" style="color: white"
+                    data-bs-parent="#sidebar"><i class="fa-solid fa-user-group"></i> <span
+                        class="d-none d-sm-inline">Mensalistas</span></a>
+                <a href="../../agenda/index.html" class="list-group-item border-0 d-inline-block text-truncate"
+                    style="color: white" data-bs-parent="#sidebar"><i class="fa fa-calendar"></i> <span
+                        class="d-none d-sm-inline">Agenda</span></a>
+                <a href="mailto:mottta.h@gmail.com" class="list-group-item border-0 d-inline-block text-truncate"
+                    style="color: white" data-bs-parent="#sidebar"><i class="fa fa-envelope"></i> <span
+                        class="d-none d-sm-inline">Suporte</span></a>
+            </div>
+        </div>
+        <main class="col-sm col border-start ps-md-2 pt-2" style="margin-top: 3vh">
+            <a href="#" data-bs-target="#sidebar" data-bs-toggle="collapse"
+                class="border rounded-3 p-1 text-decoration-none" style="color:green"><i
+                    class="fa fa-navicon fa-lg py-2 p-1"></i> Menu</a>
+            <nav class="navbar navbar-dark bg-success fixed-top">
+                <div class="container-fluid">
+                    <a class="navbar-brand d-flex align-items-center" style="font-family: 'Poppins-bold'; color: #fff"
+                        href="../../">
+                        <img src="../../src/img/icon96.png" class="img-fluid" alt="GBERAJ" width="50px">
+                        <span class="navbar-brand-text">
+                            MARKA AÍ
+                            <small class="d-none d-sm-block mb-1"
+                                style="font-family: 'Poppins-bold'; color: #fff">PAINEL ADMINISTRATIVO DE
+                                AGENDAMENTOS</small>
+                            <small>CAMPOS SOCIETY - GBERAJ</small>
+                        </span>
+                    </a>
+                </div>
+            </nav>
+
+            <div class="container" style="font-family: 'Poppins-regular';">
+                <div class="page-header pt-3">
+                    <h2 class="text-uppercase">Demonstrativo de receitas</h2>
+                </div>
+                <div class="d-flex align-items-center">
+                    <p class="lead me-2" id='currentMonth'>{{currentMonth}}</p>
+                    <button class="border rounded-3 text-decoration-none text text-success" style="font-size: 10px;"><i
+                            class="fa fa-calendar" aria-hidden="true"></i> Mudar período</button>
+                </div>
+
+                <hr>
+                <div class="row">
+                    <div class="col-md-3 mb-3">
+                        <div class="card custom-card border-custom-yellow">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <div>
+                                        <small class="card-title text-uppercase"
+                                            style="font-family: 'Poppins-bold'; color: #e2cf1e;">RESERVAS REALIZADAS
+                                            ESTE MÊS</small>
+                                        <p class="card-text text fs-2" id="reservations">{{totalDocuments}}</p>
+                                    </div>
+                                    <div class="ms-auto">
+                                        <span class="sign text fs-2"><i class="fa fa-calendar"
+                                                aria-hidden="true"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="card custom-card border-custom-blue ">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <div>
+                                        <small class="card-title text-uppercase text-primary"
+                                            style="font-family: 'Poppins-bold';">RECEITA BRUTA</small>
+                                        <p class="card-text text fs-2 money" id="bruteValue">{{bruteValue}}</p>
+                                    </div>
+                                    <div class="ms-auto">
+                                        <span class="sign text fs-2">$</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="card custom-card border-custom-green ">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <div>
+                                        <small class="card-title text-uppercase text-success"
+                                            style="font-family: 'Poppins-bold';">RECEITA LÍQUIDA</small>
+                                        <p class="card-text text fs-2" id="liquidValue">{{liquidValue}}</p>
+                                    </div>
+                                    <div class="ms-auto">
+                                        <span class="sign text fs-2">$</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="card custom-card border-custom-cyan ">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <div>
+                                        <small class="card-title text-uppercase text-info"
+                                            style="font-family: 'Poppins-bold';">REPASSE AO PROGRAMADOR</small>
+                                        <p class="card-text text fs-2" id="programmerTip">{{programmerTip}}</p>
+                                    </div>
+                                    <div class="ms-auto">
+                                        <span class="sign text fs-2">$</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="col-12">
+                    <div class="card custom-card border-light overflow-scroll" style="font-size: 10pt;">
+                        <div class="card-body">
+                            <table id="myTable"
+                                class="table table-striped table-hover table-bordered border-success compact stripe w-100"
+                                style="font-family: 'Poppins-regular'; font-size: 9pt;">
+                                <thead style="font-family: 'Poppins-regular'; font-size: 8pt;">
+                                    <tr>
+                                        <th>Nome</th>
+                                        <th>Identificação</th>
+                                        <th>Contato</th>
+                                        <th>Data</th>
+                                        <th>Local</th>
+                                        <th>Status</th>
+                                        <th>Forma Pgto</th>
+                                        <th>Opções</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal de Edição -->
+            <div id="updateModal"></div>
+        </main>
+    </div>
+    <!--FIREBASE-->
+    <script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-functions-compat.js"></script>
+    <script src="../../firebase-config.js"></script>
+    <!--PLUGINS-->
+    <script src="../../src/plugins/jquery-3.7.1.min.js"></script>
+    <script src="../../src/plugins/jquery.dataTables.js"></script>
+    <script src="../../src/plugins/dataTables.bootstrap5.min.js"></script>
+    <script src="../../src/scripts/toast.js"></script>
+    <script src="../../src/plugins/handlebars.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    
+
+    <script src="../model/panelModel.js"></script>
+    <script src="panelView.js"></script>
+    <script src="../service/panelService.js"></script>
+    <script src="../controller/panelController.js"></script>
+
+    <script src="../../src/plugins/vanilla-masker.min.js"></script>
+
+
+    <script>
+        $(document).ready(function () {
+            $('#myTable').DataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Portuguese.json"
+                }
+            });
+            getDataService();
+            getMonthAndYear();
+        });
+    </script>
+
+
+
+</body>
+<!--Live Toast Component-->
+<div id="toast"></div>
+<!--Live Toast Component-->
+
+</html>
+

@@ -1,0 +1,110 @@
+html,
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Arial, Helvetica, sans-serif, Helvetica, sans-serif;
+    font-size: 14px;
+}
+
+
+#calendar {
+    max-width: 1100px;
+    margin: 40px auto;
+}
+
+a {
+    text-decoration: none;
+    color:#fff;
+
+}
+
+.calendar a {
+    text-shadow: 5px 5px 10px black;
+
+}
+
+.calendar a:hover {
+    color:#e3ff42;
+}
+
+.adjustBg {
+    
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    position: relative;
+    z-index: 1;
+
+}
+
+.adjustBg .calendar {
+    backdrop-filter: blur(8px);
+    color: #fff;
+    background-color: #3d5b4084;
+    text-shadow: 5px 5px 10px black;
+    border-radius: 8px;
+    margin-top: 20vh!important;
+    min-height: 58vh;
+}
+
+.legenda {
+    backdrop-filter: blur(8px);
+    color: #fff;
+    background-color: #3d5b4084;
+    text-shadow: 5px 5px 10px black;
+    margin-top: auto;
+    
+}
+
+.legenda p {
+    font-size: 8pt;
+    
+}
+.bolinha {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+.verde {
+    background-color: green;
+}
+
+.laranja {
+    background-color: orange;
+}
+/* Calendar themed */
+.fc-theme-standard .fc-popover {
+    background: #505050;
+    border: 1px solid;
+}
+.fc .fc-button-primary {
+    background-color: #3d5b40;
+}
+.fc-theme-standard .fc-list-day-cushion {
+    background-color: #3d5b40;
+}
+.fc .fc-list-event:hover td {
+    background-color: #4f8d55;
+}
+a:not([href]):not([class]), a:not([href]):not([class]):hover {
+    font-size: 8pt;
+}
+.fc .fc-list-day-cushion, .fc .fc-list-table td{
+    font-size: 8pt;
+}
+.fc .fc-toolbar-title{
+    font-size: 10pt;
+}
+.fc .fc-button-group {
+    font-size: 8pt;
+}
+.fc .fc-col-header-cell-cushion {
+    font-size: 8pt;
+}
+.fc-direction-ltr .fc-daygrid-more-link {
+    font-size: 8pt;
+}
+.fc .fc-daygrid-day-number {
+    font-size: 8pt;
+}

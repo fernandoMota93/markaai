@@ -1,0 +1,144 @@
+@font-face {
+    font-family: 'Arizona-regular';
+    /*a name to be used later*/
+    src: url('../../src/font/Arizonia-Regular.ttf');
+    /*URL to font*/
+}
+
+@font-face {
+    font-family: 'Poppins-bold';
+    /*a name to be used later*/
+    src: url('../../src/font/poppins/Poppins-Bold.ttf');
+    /*URL to font*/
+}
+
+@font-face {
+    font-family: 'Poppins-regular';
+    /*a name to be used later*/
+    src: url('../../src/font/poppins/Poppins-Regular.ttf');
+    /*URL to font*/
+}
+
+h2 {
+    font-family: 'Poppins-regular';
+}
+
+#sidebar-menu {
+    width: 150px;
+}
+
+@media (max-width:576px) {
+    #sidebar-menu {
+        width: 60px;
+    }
+
+    #myTable {
+        font-size: 8pt!important;
+        
+    }
+    .dataTables_wrapper .dataTables_paginate .paginate_button {
+        font-size: 8pt!important; 
+    }
+}
+body {
+    font-family: 'Arial', sans-serif;
+    padding-top: 56px; /* altura da navbar */
+}
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 2;
+}
+
+.nav-link i {
+    margin-right: 10px;
+}
+
+.navbar-brand-text {
+    line-height: normal;
+    margin-left: 10px;
+    position: relative;
+    bottom: 5px;
+}
+
+.navbar-brand-text small {
+    display: block;
+    font-size: 10px;
+    line-height: 1;
+    text-transform: uppercase;
+}
+
+.list-group-item {
+    background-color: #3d5b40;
+}
+
+.borda {
+    border-width: medium;
+    border-style: solid;
+    border-color: #00f;
+}
+
+.custom-card {
+    border-radius: 5px;
+    box-shadow: 0 0 12px 8px rgba(0,0,0,0.1);
+}
+
+
+.sign {
+    font-size: 5em;
+    color: #8a8a8a; /* Cor verde para o símbolo de cifra de dólar */
+}
+
+.border-custom-blue { 
+    border-left: 5px solid #007bff!important;
+    border: none;
+
+}
+.border-custom-yellow { 
+    border-left: 5px solid #fbff00!important;
+    border: none;
+
+}
+.border-custom-green { 
+    border-left: 5px solid #17c400!important;
+    border: none;
+
+}
+.border-custom-cyan { 
+    border-left: 5px solid #45d4ff!important;
+    border: none;
+
+}
+
+::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+    margin-right: 8px;
+    /* Largura da barra de rolagem */
+}
+
+
+::-webkit-scrollbar-thumb {
+    background-color: #00b573;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: #f0f0f000;
+    /* Cor da pista da barra de rolagem */
+}
+
+fieldset.scheduler-border {
+    border: 1px groove #ddd !important;
+    padding: 0 1.4em 1.4em 1.4em !important;
+    margin: 0 0 1.5em 0 !important;
+    -webkit-box-shadow: 0px 0px 0px 0px #000;
+    box-shadow: 0px 0px 0px 0px #000;
+}
+
+legend.scheduler-border {
+    width: inherit;
+    /* Or auto */
+    border-bottom: none;
+}

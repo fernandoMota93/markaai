@@ -1,0 +1,69 @@
+{
+    "name": "Marka Aí - Campo Society",
+    "short_name": "MA - Campo Society",
+    "description": "Um aplicativo de agendamento de horários",
+    "start_url": "/public/",
+    "display": "fullscreen",
+    "background_color": "#ffffff",
+    "theme_color": "#00d157",
+    "icons": [
+      {
+        "src": "src/img/icon.png",
+        "sizes": "256x256",
+        "type": "image/png"
+      },
+      {
+        "src": "src/img/icon2.png",
+        "sizes": "512x512",
+        "type": "image/png"
+      }
+    ],
+    "screenshots": [
+      {
+        "src": "src/img/screenshot1.png",
+        "type": "image/png",
+        "sizes": "540x720",
+        "form_factor": "narrow"
+      },
+      {
+        "src": "src/img/screenshot2.png",
+        "type": "image/png",
+        "sizes": "720x540",
+        "form_factor": "wide"
+      }
+    ],
+    "id": "/public/",
+    "dir": "ltr",
+    "lang": "pt",
+    "orientation": "portrait",
+    "categories": [
+      "sports"
+    ],
+    "prefer_related_applications": false,
+    "shortcuts": [
+      {
+        "name": "Agenda",
+        "url": "/public/agenda/",
+        "description": "Ver as reservas",
+        "icons" : [
+            {
+                "src": "src/img/icon96.png",
+                "type": "image/png",
+                "sizes": "96x96"
+            }
+        ]
+      },
+      {
+        "name": "Reservar",
+        "url": "/public/reservar/view/",
+        "description": "Fazer minha reserva",
+        "icons" : [
+            {
+                "src": "src/img/icon96.png",
+                "type": "image/png",
+                "sizes": "96x96"
+            }
+        ]
+      }
+    ]
+  }
