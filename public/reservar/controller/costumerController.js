@@ -124,6 +124,7 @@ timeSelected.addEventListener('change', (e) => {
 duration.addEventListener('change', (e) => {
     e.preventDefault();
     $('#div3').removeClass('hide');
+    $('#div6').removeClass('hide');
 });
 proccedToPay.addEventListener('change', (e) => {
     e.preventDefault();
@@ -150,18 +151,34 @@ const showDivs = () => {
 
 btnContinue.addEventListener('click', (e) => {
     e.preventDefault();
-    if (document.getElementById('privacyPolicyCheckbox').checked) {
+    
+    // Verifica se todos os campos obrigatórios estão preenchidos
+    const form = document.getElementById('create-reservation');
+    const requiredInputs = form.querySelectorAll('[required]');
+    let isValid = true;
+
+    requiredInputs.forEach(input => {
+        if (!input.value.trim()) {
+            isValid = false;
+            input.classList.add('is-invalid'); // Adiciona uma classe de estilo para indicar campos inválidos
+        } else {
+            input.classList.remove('is-invalid');
+        }
+    });
+
+    if (isValid && document.getElementById('privacyPolicyCheckbox').checked) {
         btnContinue.disabled = true;
         const event = new Event('submitReservation');
         createReservation.dispatchEvent(event);
     } else {
         swal({
             title: 'Alerta',
-            text: `Você deve aceitar a política de privacidade`,
+            text: `Você deve preencher todos os campos obrigatórios e aceitar a política de privacidade`,
             icon: 'info'
         });
     }
 });
+
 
 
 
