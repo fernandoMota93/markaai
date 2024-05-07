@@ -3,7 +3,7 @@ const CREDIT_TAX = 0.399;
 const DEBIT_TAX = 0.239;
 const PROGRAMMER_TIP = 0.015;
 
-const dataToViewDashBoard = (dataGathered) => {
+const dataToViewDashBoard = (dataGathered, paymentOk) => {
     //******************DASHBOARD******************//
     //taxas de transação
     const pix = 1 - PIX_TAX;
@@ -14,6 +14,9 @@ const dataToViewDashBoard = (dataGathered) => {
     const payment1 = dataGathered.durationsByPaymentMethodWithPrice[1] || 0;
     const payment2 = dataGathered.durationsByPaymentMethodWithPrice[2] || 0;
     const payment3 = dataGathered.durationsByPaymentMethodWithPrice[3] || 0;
+
+    //contador de pagamentos processados
+    const payments = paymentOk[1];
 
     // Calculando a soma dos valores dos pagamentos
     const bruteValue = payment1 + payment2 + payment3;
@@ -34,18 +37,60 @@ const dataToViewDashBoard = (dataGathered) => {
     const templateBrute = document.getElementById('bruteValue');
     const templateLiquid = document.getElementById('liquidValue');
     const templateProgrammerTip = document.getElementById('programmerTip');
+    const templatePaymentOk = document.getElementById('paymentOk');
 
     // Compile os templates usando Handlebars
     const compiledTemplateReservation = Handlebars.compile(templateReservation.innerHTML);
     const compiledTemplateBrute = Handlebars.compile(templateBrute.innerHTML);
     const compiledTemplateLiquid = Handlebars.compile(templateLiquid.innerHTML);
     const compiledProgrammerTip = Handlebars.compile(templateProgrammerTip.innerHTML);
+    const compiledPaymentOk = Handlebars.compile(templatePaymentOk.innerHTML);
 
     // Renderize os templates com os dados
     templateReservation.innerHTML = compiledTemplateReservation({ totalDocuments: dataGathered.documents });
     templateBrute.innerHTML = compiledTemplateBrute({ bruteValue: `R$ ${bruteValueWithCents}` });
     templateLiquid.innerHTML = compiledTemplateLiquid({ liquidValue: `R$ ${liquidValueWithCents}` });
     templateProgrammerTip.innerHTML = compiledProgrammerTip({ programmerTip: `R$ ${programmerTipWithCents}` });
+    templatePaymentOk.innerHTML = compiledPaymentOk({ totalPaymentOk: payments });
+    //******************DASHBOARD******************//
+
+}
+
+const dataToViewDashBoardBySelect = (dataGathered, paymentOk) => {
+    //******************DASHBOARD******************//
+    //taxas de transação
+    const pix = 1 - PIX_TAX;
+    const credit = 1 - CREDIT_TAX;
+    const debit = 1 - DEBIT_TAX;
+
+    // Acessando os valores dos pagamentos
+    const payment1 = dataGathered.durationsByPaymentMethodWithPrice[1] || 0;
+    const payment2 = dataGathered.durationsByPaymentMethodWithPrice[2] || 0;
+    const payment3 = dataGathered.durationsByPaymentMethodWithPrice[3] || 0;
+
+    //contador de pagamentos processados
+    const payments = paymentOk[1];
+
+    // Calculando a soma dos valores dos pagamentos
+    const bruteValue = payment1 + payment2 + payment3;
+
+    //Calculo Liquido
+    const liquidValue = ((payment1 * pix) + (payment2 * credit) + (payment3 * debit));
+
+    //repasse
+    const programmerTip = bruteValue * PROGRAMMER_TIP;
+
+    // Formatando bruteValue com duas casas decimais
+    const bruteValueWithCents = bruteValue.toFixed(2);
+    const liquidValueWithCents = liquidValue.toFixed(2);
+    const programmerTipWithCents = programmerTip.toFixed(2);
+
+    // renderizado dinamicamente
+    document.getElementById('reservations').innerHTML = dataGathered.documents;
+    document.getElementById('bruteValue').innerHTML = `R$ ${bruteValueWithCents}`;
+    document.getElementById('liquidValue').innerHTML = `R$ ${liquidValueWithCents}`;
+    document.getElementById('programmerTip').innerHTML = `R$ ${programmerTipWithCents}`;
+    document.getElementById('paymentOk').innerHTML = payments;
     //******************DASHBOARD******************//
 
 }
@@ -55,7 +100,7 @@ const formatDataForDataTable = (documents) => {
         document.name,
         document.identification,
         document.contact,
-        typeof document.time != String ? `${document.time} - ${document.endTime}` :'dsadas',
+        typeof document.time != String ? `${document.time} - ${document.endTime}` : 'dsadas',
         document.local,
         document.status === 'green' ? 'Pago' :
             document.status === 'expirado' ? 'Ticket Expirado' :
@@ -72,7 +117,6 @@ const formatDataForDataTable = (documents) => {
 }
 
 const datatoViewTable = (documents) => {
-    console.log( typeof documents[0][3])
     // Limpa a tabela antes de adicionar novos dados
     $('#myTable').DataTable().clear().draw();
 
@@ -91,6 +135,21 @@ const getMonthAndYear = () => {
     templateCurrentMonth.innerHTML = compiledTemplatecurrentMonth({ currentMonth: `${monthName} de ${currentYear}` });
 
 }
+
+const setMonthAndYear = async (month, year) => {
+    try {
+        console.log(month)
+        const months = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
+        const currentMonthIndex = new Date(`${year}-${parseInt(month)}-01`).getMonth();
+        const currentYear = new Date().getFullYear();
+        const monthName = month === '10' || month === '11' || month === '12' ? months[currentMonthIndex + 1] : months[currentMonthIndex];
+
+        document.getElementById('currentMonth').innerHTML = `${monthName} de ${currentYear}`;
+    } catch (error) {
+        console.error('Não executou: ', error)
+    }
+
+};
 
 const renderEditModal = (id) => {
     let updateModal = document.getElementById('updateModal')

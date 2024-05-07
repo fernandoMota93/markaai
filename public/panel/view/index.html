@@ -38,6 +38,9 @@
                 <a href="mailto:mottta.h@gmail.com" class="list-group-item border-0 d-inline-block text-truncate"
                     style="color: white" data-bs-parent="#sidebar"><i class="fa fa-envelope"></i> <span
                         class="d-none d-sm-inline">Suporte</span></a>
+                <button type='button' class="list-group-item border-0 d-inline-block text-truncate" id="signOutBtn" style="color: white"
+                    data-bs-parent="#sidebar"><i class="fa fa-sign-out"></i> <span
+                        class="d-none d-sm-inline">Sair</span></button>
             </div>
         </div>
         <main class="col-sm col border-start ps-md-2 pt-2" style="margin-top: 3vh">
@@ -66,7 +69,7 @@
                 </div>
                 <div class="d-flex align-items-center">
                     <p class="lead me-2" id='currentMonth'>{{currentMonth}}</p>
-                    <button class="border rounded-3 text-decoration-none text text-success" style="font-size: 10px;"><i
+                    <button class="border rounded-3 text-decoration-none text text-success" id="btnPeriod" style="font-size: 10px;"><i
                             class="fa fa-calendar" aria-hidden="true"></i> Mudar período</button>
                 </div>
 
@@ -78,9 +81,27 @@
                                 <div class="d-flex align-items-center">
                                     <div>
                                         <small class="card-title text-uppercase"
-                                            style="font-family: 'Poppins-bold'; color: #e2cf1e;">RESERVAS REALIZADAS
-                                            ESTE MÊS</small>
+                                            style="font-family: 'Poppins-bold'; color: #e2cf1e;">RESERVAS TOTAIS
+                                            REGISTRADAS</small>
                                         <p class="card-text text fs-2" id="reservations">{{totalDocuments}}</p>
+                                    </div>
+                                    <div class="ms-auto">
+                                        <span class="sign text fs-2"><i class="fa fa-calendar"
+                                                aria-hidden="true"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 mb-3">
+                        <div class="card custom-card border-custom-purple">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <div>
+                                        <small class="card-title text-uppercase"
+                                            style="font-family: 'Poppins-bold'; color: #770084;">RESERVAS PAGAS</small>
+                                        <p class="card-text text fs-2" id="paymentOk">{{totalPaymentOk}}</p>
                                     </div>
                                     <div class="ms-auto">
                                         <span class="sign text fs-2"><i class="fa fa-calendar"
@@ -167,6 +188,9 @@
             </div>
             <!-- Modal de Edição -->
             <div id="updateModal"></div>
+            <!--Live Toast Component-->
+            <div id="toast"></div>
+            <!--Live Toast Component-->
         </main>
     </div>
     <!--FIREBASE-->
@@ -181,8 +205,9 @@
     <script src="../../src/plugins/dataTables.bootstrap5.min.js"></script>
     <script src="../../src/scripts/toast.js"></script>
     <script src="../../src/plugins/handlebars.min.js"></script>
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="../../src/plugins/sweetalert.min.js"></script>
+
 
     <script src="../model/panelModel.js"></script>
     <script src="panelView.js"></script>
@@ -193,6 +218,7 @@
 
 
     <script>
+        checkAuth();
         $(document).ready(function () {
             $('#myTable').DataTable({
                 "language": {
@@ -212,4 +238,3 @@
 <!--Live Toast Component-->
 
 </html>
-

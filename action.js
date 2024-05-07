@@ -1,25 +1,11 @@
+const dataString = "2024-03-19T16:00:00-04:00";
+const data = new Date(dataString);
 
-document.getElementById('btn2').addEventListener('click', function (e) {
-    const hello = firebaseApp.functions().httpsCallable('hello');
-    hello().then(result => {
-        console.log(result.data);
-    }).catch(error => {
+const dia = data.getDate().toString().padStart(2, '0');
+const mes = (data.getMonth() + 1).toString().padStart(2, '0');
+const ano = data.getFullYear();
+const horas = dataString.slice(11,-9);
 
-    });
+const dataFormatada = `${dia}/${mes}/${ano} - ${horas}`;
 
-    // Cria uma referência para a função que você quer chamar
-    const testarFunction = firebase.functions().httpsCallable('getDocumentos');
-    // Chama a função
-    testarFunction()
-        .then(result => {
-            // Processa o resultado retornado pela função
-            console.log('Resultado da função:', result.data);
-        })
-        .catch(error => {
-            // Lida com erros, se houver
-            console.error('Erro ao chamar a função:', error);
-        });
-
-})
-
-
+console.log(dataFormatada);

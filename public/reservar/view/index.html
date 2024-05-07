@@ -75,11 +75,12 @@
                                     </p>
                                 </div>
                             </div>
-                                <div class="alert alert-success align-items-center mb-2" role="alert">
-                                    <div>
-                                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Valor da hora: R$ 130,00
-                                    </div>
-                                  </div>
+                            <div class="alert alert-success align-items-center mb-2" role="alert">
+                                <div>
+                                    <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Valor da hora: R$
+                                    150,00
+                                </div>
+                            </div>
 
                             <form action="#" class="signin-form" id="create-reservation" method="post">
                                 <div class="form-group mt-5">
@@ -114,7 +115,8 @@
                                     </select>
                                 </div>
                                 <div class="hide form-group mt-3 animate__animated animate__fadeIn" id="div2">
-                                    <label for="time" class="form-label">Selecione um horário:</label>
+                                    <label for="time" class="form-label">Selecione um horário disponível:</label>
+                                    <small style="position: absolute;  top: -2vh; left: 0; font-size: 0.825rem; font-style: italic ;">Atualizado automaticamente</small>
                                     <select id="time" class="form-select" required>
                                         <option value="" selected disabled>Selecione...</option>
                                         <option value="08:00">08:00</option>
@@ -153,10 +155,12 @@
                                     </select>
                                 </div>
                                 <div class="hide form-group animate__animated animate__fadeIn mt-3" id="div5">
-                                    <button type="submit"
+                                    <input type="checkbox" id="privacyPolicyCheckbox" name="privacyPolicyCheckbox">
+                                    <label for="privacyPolicyCheckbox">Eu concordo com a <a
+                                            href="../../policy.html" target="_blank">Política de Privacidade</a></label>
+                                    <button type="submit" id="btnContinue"
                                         class="form-control btn btn-primary rounded submit px-3 ">Continuar</button>
-                                    <div class="loadSpinner" id="loadSpinner" style="display: none;"></div>
-                                    <div class="progress">
+                                    <div class="progress mt-2">
                                         <div id="progress-bar" class="progress-bar" role="progressbar"
                                             style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
                                             0%</div>
@@ -195,6 +199,7 @@
     <script src="../../src/plugins/bootstrap-datepicker.pt-BR.min.js"></script>
     <script src="../../src/plugins/vanilla-masker.min.js"></script>
     <script src="../../src/scripts/toast.js"></script>
+    <script src="../../src/plugins/sweetalert.min.js"></script>
     <script src="../model/Costumer.js"></script>
     <script src="../service/costumerService.js"></script>
     <script src="../controller/costumerController.js"></script>

@@ -1,72 +1,16 @@
-const OFFSET_HOURS = -4;
-const PRICE_MULTIPLIER = 130;
+const checkAuth = () => {
+    firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+            const uid = user.uid;
 
-const maskIdentification = (identification) => {
-    if (typeof identification !== 'string' || identification.trim().length !== 14) {
-        return identification; // Retorna sem modificar se não for uma string válida ou se não tiver o comprimento esperado
-    }
-    return `${identification.slice(0, 3)}.***.***-${identification.slice(12)}`;
-};
-
-const formatName = (name) => {
-    if (typeof name !== 'string' || name.trim().length === 0) {
-        return name; // Retorna sem modificar se não for uma string válida ou se estiver vazia
-    }
-
-    const parts = name.trim().split(' '); // Divide o nome em partes separadas por espaço
-    if (parts.length === 1) {
-        return name; // Retorna o nome original se for apenas uma palavra
-    }
-
-    let formattedName = '';
-    if (parts.length === 2) {
-        formattedName = `${parts[0].charAt(0).toUpperCase()} ${parts[1]}`;
-    } else {
-        const firstPart = parts[0];
-        const lastPart = parts.pop();
-        const middleParts = parts.slice(1).map(part => part.charAt(0).toUpperCase());
-        formattedName = `${firstPart} ${middleParts.join(' ')} ${lastPart}`;
-    }
-
-    return formattedName;
-};
-
-const formatDateTime = (dateTimeString) => {
-    const dateTime = new Date(dateTimeString);
-    const day = dateTime.getDate().toString().padStart(2, '0');
-    const month = (dateTime.getMonth() + 1).toString().padStart(2, '0');
-    const year = dateTime.getFullYear().toString().slice(-2); // Pegar os últimos dois dígitos do ano
-    const hours = dateTime.getHours().toString().padStart(2, '0');
-    const minutes = dateTime.getMinutes().toString().padStart(2, '0');
-    return `${day}/${month}/${year}-${hours}:${minutes}`;
-};
-
-
-
-const formatDateWithOffset = (date, isStartOfDay) => {
-    const offsetSign = OFFSET_HOURS >= 0 ? '+' : '-';
-    const offsetHours = Math.abs(OFFSET_HOURS);
-    const offsetMinutes = 0;
-    const offsetString = `${offsetSign}${offsetHours.toString().padStart(2, '0')}:${offsetMinutes.toString().padStart(2, '0')}`;
-
-    const isoDate = date.toISOString().slice(0, 10);
-    const timeOfDay = isStartOfDay ? '00:00:00' : '23:59:59';
-    return `${isoDate}T${timeOfDay}${offsetString}`;
-};
-
-const calculatePrice = (duration) => duration * PRICE_MULTIPLIER;
-
-const processDocumentData = (data, dataid) => ({
-    id: dataid,
-    name: formatName(data.name),
-    identification: maskIdentification(data.identification),
-    contact: data.contact,
-    local: data.local,
-    time: data.status !== 'expirado' ? formatDateTime(data.time) : data.time,
-    endTime: data.status !== 'expirado' ? formatDateTime(data.endTime) : 'Se precisar cheque nas opções',
-    paymentMethod: data.paymentMethod,
-    status: data.status
-});
+            if (uid == 'tu0ZubKIhrS76VYu8TT0F57nKCJ2') {
+                toastShow('Bem-vindo', 'Autenticado com sucesso', 'success');
+            }
+        } else {
+            window.location.href = '../../login/';
+        }
+    });
+}
 
 const getDataService = () => {
     const today = new Date();
@@ -77,6 +21,7 @@ const getDataService = () => {
     const lastDayOfMonthISO = formatDateWithOffset(lastDayOfMonth, false);
 
     const durationsByPaymentMethod = { 1: 0, 2: 0, 3: 0 };
+    const paymentOk = { 1: 0 };
 
     docRef
         .where('timeForDashboard', '>=', firstDayOfMonthISO)
@@ -89,11 +34,10 @@ const getDataService = () => {
                 const data = doc.data();
                 const duration = data.duration;
                 const paymentMethod = data.paymentMethod;
-                durationsByPaymentMethod[paymentMethod] += duration;
+                paymentOk[1] += doc.data().status === 'green' ? 1 : 0;
+                durationsByPaymentMethod[paymentMethod] += doc.data().status === 'green' ? duration : 0
                 documents.push(processDocumentData(data, dataid));
             });
-
-            console.log(documents)
 
             const durationsByPaymentMethodWithPrice = {};
             Object.keys(durationsByPaymentMethod).forEach((method) => {
@@ -104,16 +48,85 @@ const getDataService = () => {
                 documents: querySnapshot.size,
                 durationsByPaymentMethodWithPrice: durationsByPaymentMethodWithPrice
             }
+            //render the value of top cards
+            dataToViewDashBoard(totalDocuments, paymentOk);
 
-            dataToViewDashBoard(totalDocuments);
-
-
+            //render the table
             datatoViewTable(formatDataForDataTable(documents));
 
         }).catch((error) => {
             console.error('Erro ao obter documentos:', error);
         });
-}
+};
+
+const getDataServiceBySelect = async (formattedDate) => {
+    const [month, year] = formattedDate.split("/");
+
+    console.log(month)
+
+    const today = new Date(`${year}-${parseInt(month)}-01`);
+
+    const isLastQuarter = ['10', '11', '12'].includes(month);
+
+    const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth() + (isLastQuarter ? 1 : 0), 1);
+    const lastDayOfMonth = new Date(today.getFullYear(), today.getMonth() + (isLastQuarter ? 2 : 1), 0);
+
+    const firstDayOfMonthISO = formatDateWithOffset(firstDayOfMonth, true);
+    const lastDayOfMonthISO = formatDateWithOffset(lastDayOfMonth, false);
+
+    const durationsByPaymentMethod = { 1: 0, 2: 0, 3: 0 };
+    const paymentOk = { 1: 0 };
+
+    docRef
+        .where('timeForDashboard', '>=', firstDayOfMonthISO)
+        .where('timeForDashboard', '<=', lastDayOfMonthISO)
+        .get()
+        .then(async (querySnapshot) => {
+            if (querySnapshot.size > 0) {
+                const documents = [];
+                querySnapshot.forEach((doc) => {
+                    const dataid = doc.id;
+                    const data = doc.data();
+                    const duration = data.duration;
+                    const paymentMethod = data.paymentMethod;
+                    paymentOk[1] += doc.data().status === 'green' ? 1 : 0;
+                    durationsByPaymentMethod[paymentMethod] += doc.data().status === 'green' ? duration : 0
+                    documents.push(processDocumentData(data, dataid));
+                });
+
+                const durationsByPaymentMethodWithPrice = {};
+                Object.keys(durationsByPaymentMethod).forEach((method) => {
+                    durationsByPaymentMethodWithPrice[method] = calculatePrice(durationsByPaymentMethod[method]);
+                });
+
+                const totalDocuments = {
+                    documents: querySnapshot.size,
+                    durationsByPaymentMethodWithPrice: durationsByPaymentMethodWithPrice
+                }
+                //render the value of top cards
+                dataToViewDashBoardBySelect(totalDocuments, paymentOk);
+
+                //render the table
+                datatoViewTable(formatDataForDataTable(documents));
+
+                await setMonthAndYear(month, year);
+
+            } else {
+                const documents = {};
+                const totalDocuments = {
+                    documents: 0,
+                    durationsByPaymentMethodWithPrice: 0
+                }
+                datatoViewTable(documents);
+                dataToViewDashBoardBySelect(totalDocuments, paymentOk);
+                await setMonthAndYear(month, year);
+            }
+
+
+        }).catch((error) => {
+            console.error('Erro ao obter documentos:', error);
+        });
+};
 
 const getOneDocForUpdateService = (id) => {
     docRef
@@ -182,6 +195,11 @@ const updateCostumerEventDataService = (id) => {
 
 const checkPix = async (id) => {
     try {
+        swal({
+            title: 'Consultando o Banco',
+            text: `Ticket do cliente: ${id}`,
+            icon: 'info'
+        });
         // Montando a URL com os parâmetros necessários
         const url = `https://us-central1-markaai.cloudfunctions.net/pix2/checkpix?id=${id}`;
 
@@ -192,7 +210,7 @@ const checkPix = async (id) => {
         if (response.ok) {
             // Extrai o JSON da resposta
             const responseData = await response.json();
-            
+
             // Verifica se a chave 'data' existe na resposta
             if (responseData.hasOwnProperty('data')) {
                 // Exibe o valor da chave 'data' em um alerta com título
@@ -210,7 +228,7 @@ const checkPix = async (id) => {
                 });
             }
         } else {
-             const responseData = await response.json();
+            const responseData = await response.json();
             // Exibe uma mensagem de erro caso a requisição não seja bem-sucedida
             swal({
                 title: 'Erro',

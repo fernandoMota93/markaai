@@ -4,6 +4,8 @@ const timeSelected = document.getElementById('time');
 const duration = document.getElementById('duration');
 const datepicker = document.getElementById('datepicker');
 const proccedToPay = document.getElementById('paymentMethod');
+const btnContinue = document.getElementById('btnContinue');
+
 
 document.getElementById('name').addEventListener('input', () => {
     const inputElement = document.getElementById('name');
@@ -42,9 +44,9 @@ timeSelected.addEventListener('change', (e) => {
     const nextTime = nextTimeOption ? nextTimeOption.value : null;
     const nextTime2 = nextTimeOption2 ? nextTimeOption2.value : null;
 
-    console.log("Selected time:", selectedTime);
-    console.log("Next time:", nextTime);
-    console.log("Next time 2:", nextTime2);
+   // console.log("Selected time:", selectedTime);
+    //console.log("Next time:", nextTime);
+   // console.log("Next time 2:", nextTime2);
 
 
     if (!nextTime && !nextTime2 && selectedTime == '22:00') {
@@ -75,10 +77,10 @@ timeSelected.addEventListener('change', (e) => {
         const diffHoursSecondSlot = nextHours2 - selectedHours;
 
 
-        console.log("Difference in hours:", diffHours);
-        console.log("Difference in second slot:", diffHoursSecondSlot);
-        console.log("Selected time:", selectedHours);
-        console.log("Second time:", nextHours2);
+        //console.log("Difference in hours:", diffHours);
+        //console.log("Difference in second slot:", diffHoursSecondSlot);
+        //console.log("Selected time:", selectedHours);
+        //console.log("Second time:", nextHours2);
 
         // Desabilita opções do dropdown de duração conforme as condições
         $('#duration option').each(function () {
@@ -103,8 +105,8 @@ timeSelected.addEventListener('change', (e) => {
         const diffHours = nextHours - selectedHours;
 
 
-        console.log("Difference in hours:", diffHours);
-        console.log("Selected time:", selectedHours);
+        //console.log("Difference in hours:", diffHours);
+        //console.log("Selected time:", selectedHours);
 
         // Desabilita opções do dropdown de duração conforme as condições
         $('#duration option').each(function () {
@@ -145,7 +147,25 @@ const showDivs = () => {
     $('#div1, #div2').removeClass('hide');
 }
 
-createReservation.addEventListener('submit', (e) => {
+
+btnContinue.addEventListener('click', (e) => {
+    e.preventDefault();
+    if (document.getElementById('privacyPolicyCheckbox').checked) {
+        btnContinue.disabled = true;
+        const event = new Event('submitReservation');
+        createReservation.dispatchEvent(event);
+    } else {
+        swal({
+            title: 'Alerta',
+            text: `Você deve aceitar a política de privacidade`,
+            icon: 'info'
+        });
+    }
+});
+
+
+
+createReservation.addEventListener('submitReservation', (e) => {
     e.preventDefault();
 
     const convertDateFormat = (inputDate) => {
@@ -212,24 +232,24 @@ createReservation.addEventListener('submit', (e) => {
     let formattedHours = ('0' + endTime.getHours()).slice(-2);
     let formattedMinutes = ('0' + endTime.getMinutes()).slice(-2);
     let formattedEndTime = `${formattedHours}:${formattedMinutes}`;
-    console.log(`End Time: ${formattedEndTime}`)
+   // console.log(`End Time: ${formattedEndTime}`)
 
     if (formattedEndTime == '01:00' || formattedEndTime == '00:00') {
         endTime = `${convertDateFormatMoreOneDay(document.getElementById('datepicker').value)}T${formattedEndTime}:00-04:00`;
     } else {
         endTime = `${convertDateFormat(document.getElementById('datepicker').value)}T${formattedEndTime}:00-04:00`
     }
-    const reservationData = { 
-        name: name, 
-        identification: identification, 
-        contact: contact, 
-        email: email, 
+    const reservationData = {
+        name: name,
+        identification: identification,
+        contact: contact,
+        email: email,
         time: time,
-        timeForDashboard: time, 
-        endTime: endTime, 
-        duration:selectedDuration, 
-        paymentMethod: paymentMethod, 
-        local: local 
+        timeForDashboard: time,
+        endTime: endTime,
+        duration: selectedDuration,
+        paymentMethod: paymentMethod,
+        local: local
     };
     createNewReservationService(reservationData);
 });

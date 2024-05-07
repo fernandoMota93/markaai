@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="pt-BR" style="height: 100%;">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página de Pagamento</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <style>
+        @media screen and (max-width: 767px) {
+            footer {
+                position: relative !important;
+                bottom: -15% !important;
+                height: 20%;
+            }
+        }
+
+        @media screen and (min-width: 1024px) {
+            footer {
+                position: fixed !important;
+                bottom: 0 !important;
+                height: 20%;
+            }
+        }
+
+        /* Estilos personalizados */
+        html,
+        body {
+            height: 100%;
+        }
+
+        .background-image {
+            background-image: url('https://images.unsplash.com/photo-1606925797300-0b35e9d1794e?q=80&w=1781&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+            background-size: cover;
+            background-position: center;
+            height: 100%;
+        }
+
+        .lato-regular {
+            font-family: "Lato", sans-serif;
+            font-weight: 400;
+            font-style: normal !important;
+        }
+    </style>
+</head>
+
+<body style="height: 100%;">
+
+    <div class="container-fluid h-100">
+        <div class="row h-100">
+            <!-- Terço com a imagem de fundo e conteúdo -->
+            <div class="col-md-4 background-image lato-regular">
+                <div class="d-flex flex-column align-items-center justify-content-center h-100">
+                    <!-- Imagem -->
+                    <img src="<%=qrcodeImage%>" class="img-fluid mx-auto mb-4 rounded"
+                        style="max-width: 400px; max-height: 400px;" alt="Imagem">
+                    <!-- Texto e contador regressivo -->
+                    <div class="alert alert-success" style="opacity: 80%;" role="alert">
+                        O Código expira em: <span id="contador">20:00</span>
+                    </div>
+                    <p class="text-center mb-1"></p>
+                    <!-- Botão "Copia e cola" -->
+                    <button class="btn btn-success mb-3" id="btnPix"><i class="fa fa-qrcode"></i> Pix Copia e
+                        Cola</button>
+                    <input type="hidden" value="<%=qrcodeText%>" id="qrcode">
+                    <div class="card mb-1"
+                        style="max-width: 540px; width: 100%; border-top-left-radius: 10px; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">
+                        <div class="row g-0 align-items-center">
+                            <div class="col-md-4 text-center">
+                                <i class="fa fa-ticket text-success" aria-hidden="true" style="font-size: 5em; "></i>
+                            </div>
+                            <div class="col-md-8" style="border-left: 2px dashed #ccc;">
+                                <div class="card-body">
+                                    <h5 class="card-title">Ticket de: <%=qrcodeNome%></h5>
+                                    <p class="card-text mb-1"><b><small>Valor: R$ <%=qrcodeValor%></small></b></p>
+                                    <p class="card-text mb-1"><small>Data e hora: <%=docData%>  </small></p>
+                                    <p class="card-text mb-1"><small>Tempo de jogo: <%=docDuracao%> horas</small></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Dois terços com informações de pagamento -->
+            <div class="col-md-8 h-100">
+                <div class="row h-100">
+                    <div class="container-fluid lato-regular" style="padding: 0 0 0 0;">
+                        <nav class="navbar navbar-dark bg-success">
+                            <span class="navbar-brand ms-2">Marka Aí - Campo Society GBERAJ</span>
+                        </nav>
+                    </div>
+                    <div class="col-md-12 lato-regular ">
+                        <p>Serviço: Aluguel de Campo Society</p>
+                        <p>Telefone: 65 99304-7007</p>
+                        <p>E-mail: clubesargentoscuiaba@gmail.com</p>
+                        <p>Favorecido: Leandro A Rostirola</p>
+                        <p>Banco: EFÍ S.A. - IP</p>
+                    </div>
+                    <footer class="footer bg-dark text-white text-start p-3">
+                        <small>Avenida Miguel Sutil, 941 - Barra do Pari (Vila Militar) Cuiabá-MT - CEP:
+                            78040-900</small><br>
+                        <small>Entrada após a rotatória do Círculo Militar</small><br>
+                        <small>CNPJ: 03.208.733/0001-04</small>
+                        <small>© 2024 Todos os direitos reservados</small>
+                    </footer>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Bootstrap Bundle com Popper.js e JQuery -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Script para o contador regressivo -->
+    <script>
+        // Definindo o tempo inicial em segundos (20 minutos)
+        let tempoRestante = 20 * 60;
+
+        // Função para atualizar o contador regressivo
+        function atualizarContador() {
+            const minutos = Math.floor(tempoRestante / 60);
+            const segundos = tempoRestante % 60;
+
+            document.getElementById('contador').textContent = `${minutos.toString().padStart(2, '0')}:${segundos.toString().padStart(2, '0')}`;
+
+            if (tempoRestante === 0) {
+                clearInterval(contadorInterval);
+                alert('Tempo esgotado!');
+            } else {
+                tempoRestante--;
+            }
+        }
+
+        // Chamando a função para atualizar o contador a cada segundo
+        const contadorInterval = setInterval(atualizarContador, 1000);
+
+        document.getElementById('btnPix').addEventListener('click', (e) => {
+            e.preventDefault();
+
+            // Seleciona o conteúdo do input
+            const qrcode = document.getElementById('qrcode').value;
+
+            // Cria um elemento textarea dinamicamente
+            const textarea = document.createElement('textarea');
+
+            // Define o valor do textarea como o conteúdo do input
+            textarea.value = qrcode;
+
+            // Adiciona o textarea à DOM
+            document.body.appendChild(textarea);
+
+            // Seleciona o conteúdo do textarea
+            textarea.select();
+
+            // Copia o conteúdo selecionado para a área de transferência
+            document.execCommand('copy');
+
+            // Remove o textarea da DOM
+            document.body.removeChild(textarea);
+
+            // Exibe uma mensagem de confirmação
+            alert('Pix Copiado para área de transferência.');
+        });
+
+    </script>
+
+</body>
+
+</html>

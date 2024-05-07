@@ -25,6 +25,18 @@
     box-sizing: border-box;
 }
 
+.roboto-regular {
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.roboto-bold {
+    font-family: "Roboto", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+}
+
 .titulo {
     font-family: 'Arizona-Regular';
     font-size: 60pt;
@@ -79,6 +91,26 @@
     z-index: 1;
 }
 
+.container-policy {
+    width: 100%;
+    min-height: 100vh;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+   
+    padding-top: 20vh;
+
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    position: relative;
+    z-index: 1;
+}
+
 .container-login100::before {
     content: "";
     display: block;
@@ -112,31 +144,31 @@
 
 .navbar-toggler .navbar-toggler-icon:before,
 .navbar-toggler .navbar-toggler-icon:after {
-  transition: top 300ms 350ms ease, -webkit-transform 300ms 50ms ease;
-  transition: top 300ms 350ms ease, transform 300ms 50ms ease;
-  transition: top 300ms 350ms ease, transform 300ms 50ms ease, -webkit-transform 300ms 50ms ease;
-  position: absolute;
-  right: 0;
-  left: 0;
-  background: #fff;
-  width: 30px;
-  height: 2px;
-  content: '';
+    transition: top 300ms 350ms ease, -webkit-transform 300ms 50ms ease;
+    transition: top 300ms 350ms ease, transform 300ms 50ms ease;
+    transition: top 300ms 350ms ease, transform 300ms 50ms ease, -webkit-transform 300ms 50ms ease;
+    position: absolute;
+    right: 0;
+    left: 0;
+    background: #fff;
+    width: 30px;
+    height: 2px;
+    content: '';
 }
 
 .navbar-toggler .navbar-toggler-icon::before {
-  top: -8px;
+    top: -8px;
 }
 
 .navbar-toggler .navbar-toggler-icon::after {
-  top: 8px;
+    top: 8px;
 }
 
 .card {
     backdrop-filter: blur(8px);
     color: #fff;
     background-color: #3d5b4096;
-    
+
 }
 
 .btn-success {

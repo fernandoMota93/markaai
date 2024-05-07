@@ -1,5 +1,6 @@
 #functions
-functions/
+functions/apis
+functions/certs
 # Logs
 logs
 *.log

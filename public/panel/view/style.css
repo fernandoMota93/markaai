@@ -95,6 +95,11 @@ body {
     border: none;
 
 }
+.border-custom-purple { 
+    border-left: 5px solid #770084!important;
+    border: none;
+
+}
 .border-custom-yellow { 
     border-left: 5px solid #fbff00!important;
     border: none;
