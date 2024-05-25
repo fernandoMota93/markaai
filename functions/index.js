@@ -47,7 +47,7 @@ exports.createNewReservationServiceFunction = functions.https.onRequest(async (r
 
       const newReservationRef = await admin.firestore().collection('Society1').add({
         ...reservationData,
-        initialCost: TIME_VALUE,
+        initialCost: reservationData.rentBall === '1' ? TIME_VALUE + 10 : TIME_VALUE,
         status: 'orange',
         creationTimestamp: admin.firestore.FieldValue.serverTimestamp() // definindo status como pendente por padrão
       });

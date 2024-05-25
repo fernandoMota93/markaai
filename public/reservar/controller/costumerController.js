@@ -239,6 +239,7 @@ createReservation.addEventListener('submitReservation', (e) => {
     let time = `${convertDateFormat(document.getElementById('datepicker').value)}T${document.getElementById('time').value}:00-04:00`;
     let paymentMethod = document.getElementById('paymentMethod').value;
     let local = document.getElementById('local').value;
+    let rentBall = document.getElementById('rentBall').value;
 
     let selectedDuration = parseInt(document.getElementById('duration').value);
     let endTime = new Date(time);
@@ -266,6 +267,7 @@ createReservation.addEventListener('submitReservation', (e) => {
         endTime: endTime,
         duration: selectedDuration,
         paymentMethod: paymentMethod,
+        rentBall: rentBall,
         local: local
     };
     createNewReservationService(reservationData);
