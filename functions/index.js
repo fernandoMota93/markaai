@@ -18,7 +18,7 @@ exports.readAllReservationsServiceFunction = functions.https.onRequest(async (re
       const reservas = [];
       snapshot.forEach(doc => {
         reservas.push({
-          title: 'Campo A ' + doc.data().name,
+          title: `${doc.data().local} ${doc.data().name}`,
           start: doc.data().time,
           end: doc.data().endTime,
           color: doc.data().status,
@@ -210,6 +210,7 @@ app.get('/pix', async (req, res) => {
       qrcodeValor: objCobranca.valor.original,
       qrcodeNome: objCobranca.devedor.nome,
       docDuracao: doc.data().duration,
+      docLocal: doc.data().local,
       docData: new Date(doc.data().time).toLocaleDateString('pt-BR')
     });
 

@@ -11,6 +11,7 @@ const readAllReservationsService = () => {
     const readAllReservationsServiceFunction = firebase.functions().httpsCallable('readAllReservationsServiceFunction');
     readAllReservationsServiceFunction()
         .then(result => {
+            console.log(result)
             swal.close();
             swal({
                 icon: "success",

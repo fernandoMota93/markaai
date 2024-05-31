@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservar horário</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-datepicker@1.9.0/dist/css/bootstrap-datepicker.min.css"
+        rel="stylesheet">
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-sm fixed-top" style="background-color: #3d5b40; font-family: 'Poppins-regular';">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" style="font-family: 'Poppins-bold'; color: #fff"
+                href="https://gremioantoniojoao.com.br">
+                <img src="../../src/img/logo.png" class="img-fluid" alt="GBERAJ" width="50px">
+                <span class="navbar-brand-text">
+                    GBERAJ
+                    <small class="d-none d-sm-block mb-1" style="font-family: 'Poppins-bold'; color: #fff">Grêmio
+                        Beneficente
+                        Esportivo e Recreativo AntônioJoão</small>
+                    <small>Clube STen/Sgt</small>
+                </span>
+            </a>
+
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-lg-auto">
+                    <li class="nav-item">
+                        <a class="nav-link click-scroll" style="color: #fff;" href="../../"><i
+                                class="bi bi-house-door-fill"></i>
+                            Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link click-scroll" style="color: #fff;" href="../../agenda/"><i
+                                class="bi bi-calendar-check-fill"></i></i> Agenda</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section class="ftco-section">
+        <div class="container">
+            <div class="row justify-content-center" style="margin-top: 10vh;">
+                <div class="col-md-7 col-lg-5">
+                    <div class="wrap overflow-auto" style="height: 75vh;">
+                        <div class="img" style="background-image: url(../../src/img/bg-reserva2.jpg);"></div>
+
+                        <div class="login-wrap p-4 p-md-5">
+                            <div class="d-flex">
+                                <div class="w-100">
+                                    <h3 class="mb-4 titulo">Reservar Quadra</h3>
+                                </div>
+                                <div class="w-100">
+                                    <p class="social-media d-flex justify-content-end">
+                                        <a href="#"
+                                            class="social-icon d-flex align-items-center justify-content-center"><span
+                                                class="fa fa-whatsapp"></span></a>
+                                        <a href="#"
+                                            class="social-icon d-flex align-items-center justify-content-center"><span
+                                                class="fa fa-google"></span></a>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="alert alert-success align-items-center mb-2" role="alert">
+                                <div>
+                                    <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Valor da hora: R$
+                                    150,00
+                                </div>
+                            </div>
+
+                            <form action="#" class="signin-form" id="create-reservation" method="post">
+                                <div class="form-group mt-5">
+                                    <input type="text" class="form-control" id="name" required>
+                                    <label class="form-control-placeholder" for="name">Nome Completo</label>
+                                </div>
+                                <div class="form-group mt-3">
+                                    <input type="text" id="document" class="form-control" required>
+                                    <label class="form-control-placeholder" for="document">CPF</label>
+
+                                </div>
+                                <div class="form-group mt-3">
+                                    <input type="phone" id="contact" class="form-control" required>
+                                    <label class="form-control-placeholder" for="contact">Telefone</label>
+
+                                </div>
+                                <div class="form-group mt-3">
+                                    <input type="email" id="email" class="form-control" required>
+                                    <label class="form-control-placeholder" for="contact">E-mail válido</label>
+
+                                </div>
+                                <hr>
+                                <div class="form-group mt-3">
+                                    <label for="datepicker" class="form-label">Selecione uma data:</label>
+                                    <input type="text" id="datepicker" class="form-control" required>
+                                </div>
+                                <div class="hide form-group mt-3 animate__animated animate__fadeIn" id="div1">
+                                    <label for="local" class="form-label">Beach Volley</label>
+                                    <select id="local" class="form-select" id="selectField" required>
+                                        <option value="" disabled>Selecione...</option>
+                                        <option value="Quadra A" selected>Quadra A</option>
+                                        <option value="Quadra B">Quadra B</option>
+                                        <option value="Quadra C">Quadra C</option>
+                                    </select>
+                                </div>
+                                <div class="hide form-group mt-3 animate__animated animate__fadeIn" id="div2">
+                                    <label for="time" class="form-label">Selecione um horário disponível:</label>
+                                    <small style="position: absolute;  top: -2vh; left: 0; font-size: 0.825rem; font-style: italic ;">Atualizado automaticamente</small>
+                                    <select id="time" class="form-select" required>
+                                        <option value="" selected disabled>Selecione...</option>
+                                        <option value="21:00">21:00</option>
+                                        <option value="22:00">22:00</option>
+                                        <option value="23:00">23:00</option>
+                                    </select>
+                                </div>
+                                <div class="hide form-group mt-3 animate__animated animate__fadeIn" id="div4">
+                                    <label for="duration" class="form-label">Vamos jogar por...</label>
+                                    <select id="duration" class="form-select" required>
+                                        <option value="" selected disabled>Selecione...</option>
+                                        <option value="1">1 hora</option>
+                                        <option value="2">2 horas</option>
+                                        <option value="3">3 horas</option>
+                                    </select>
+                                </div>
+                                <div class="hide form-group mt-3 animate__animated animate__fadeIn" id="div6">
+                                    <label for="rentBall" class="form-label">Alugar bola?</label>
+                                    <select id="rentBall" class="form-select" required>
+                                        
+                                        <option value="" selected disabled>Selecione...</option>
+                                        <option value="1">Sim</option>
+                                        <option value="2">Não</option>
+                                    </select>
+                                    <small style="top: -2vh; left: 0; font-size: 0.825rem; font-style: italic ;">Acréscimo de R$ 10,00 no valor da reserva</small>
+                                </div>
+                                <div class="hide form-group mt-3 animate__animated animate__fadeIn" id="div3">
+                                    <label for="paymentMethod" class="form-label">Forma de pagamento</label>
+                                    <select id="paymentMethod" class="form-select" required>
+                                        <option value="" selected disabled>Selecione...</option>
+                                        <option value="1">PIX</option>
+                                        <option value="2" disabled>Cartão Crédito</option>
+                                        <option value="3" disabled>Cartão Débito</option>
+                                    </select>
+                                </div>
+                                <div class="hide form-group animate__animated animate__fadeIn mt-3" id="div5">
+                                    <input type="checkbox" id="privacyPolicyCheckbox" name="privacyPolicyCheckbox">
+                                    <label for="privacyPolicyCheckbox">Eu concordo com a <a
+                                            href="../../policy.html" target="_blank">Política de Privacidade</a></label>
+                                    <button type="submit" id="btnContinue"
+                                        class="form-control btn btn-primary rounded submit px-3 ">Continuar</button>
+                                    <div class="progress mt-2">
+                                        <div id="progress-bar" class="progress-bar" role="progressbar"
+                                            style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                                            0%</div>
+                                    </div>
+                                </div>
+                                <div class="form-group d-md-block d-block">
+
+                                    <div class="w-100 text-md-left">
+                                        <a href="../../agenda/">Quero ver a agenda</a>
+                                    </div>
+
+                                    <div class="w-100 text-md-left">
+                                        <p class="text text-danger font-italic" id="showError"></p>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!--FIREBASE-->
+    <script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-functions-compat.js"></script>
+    <script src="../../firebase-config.js"></script>
+
+
+
+    <script src="../../src/plugins/bootstrap.bundle.min.js"></script>
+    <script src="../../src/plugins/jquery-3.7.1.min.js"></script>
+    <script src="../../src/plugins/bootstrap-datepicker.min.js"></script>
+    <script src="../../src/plugins/bootstrap-datepicker.pt-BR.min.js"></script>
+    <script src="../../src/plugins/vanilla-masker.min.js"></script>
+    <script src="../../src/scripts/toast.js"></script>
+    <script src="../../src/plugins/sweetalert.min.js"></script>
+    <script src="../model/Costumer.js"></script>
+    <script src="../service/costumerService.js"></script>
+    <script src="../controller/costumerController.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            $('#datepicker').datepicker({
+                language: 'pt-BR',
+                //daysOfWeekDisabled: [1],
+                todayHighlight: true,
+                toggleActive: false,
+                title: 'Dias disponíveis',
+                startDate: new Date(),
+                disableTouchKeyboard: true
+            }).on('changeDate', function (e) {
+                // Fecha o datepicker após a seleção
+                $(this).datepicker('hide');
+                const selectedDate = e.date.toISOString().split('T')[0];
+                checkAvaibleTimeService(selectedDate);
+                showDivs();
+            });
+
+        });
+
+    </script>
+</body>
+<!--Live Toast Component-->
+<div id="toast"></div>
+<!--Live Toast Component-->
+
+</html>
