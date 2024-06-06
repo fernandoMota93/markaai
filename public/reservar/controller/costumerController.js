@@ -133,7 +133,7 @@ proccedToPay.addEventListener('change', (e) => {
 
 
 // Função para atualizar o dropdown das horas
-const updateDropdown = selectedTimes => {
+const updateDropdown = (selectedTimes, selectedDate) => {
     const dropdown = document.getElementById('time');
 
     // Remover opções já ocupadas
@@ -141,6 +141,14 @@ const updateDropdown = selectedTimes => {
         const optionToRemove = dropdown.querySelector(`option[value="${selectedTime.split('T')[1].substring(0, 5)}"]`);
         if (optionToRemove) optionToRemove.remove();
     });
+
+    const dateObject = new Date(selectedDate);
+    let dayOfWeek = dateObject.getDay();   
+
+    if (dayOfWeek === 0 || dayOfWeek === 2 || dayOfWeek === 4) {
+        $("#time option[value='19:00']").remove();
+        $("#time option[value='20:00']").remove();
+    }
 };
 
 const showDivs = () => {

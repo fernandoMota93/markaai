@@ -23,7 +23,7 @@ const createNewReservationService = (reservationData) => {
         .then(result => {
             console.log(result.data)
             const reservationId = result.data.id;
-            
+
             toastShow('Aviso', `Pré-reserva realizada, proceda para o pagamento`);
             currentStep++;
             updateProgress();
@@ -73,10 +73,10 @@ const checkAvaibleTimeService = (selectedDate) => {
             if (selectedTimes.length > 0) {
                 // Se há valores, exibe as divs e atualiza o dropdown
                 showDivs();
-                updateDropdown(selectedTimes);
+                updateDropdown(selectedTimes, selectedDate);
             } else {
                 // Se não há valores, restaura os valores originais do select
-                restoreOriginalSelect();
+                restoreOriginalSelect(selectedDate);
             }
         })
         .catch(error => console.error("Erro ao obter os horários selecionados:", error));
@@ -93,7 +93,15 @@ const fillTimeGaps = (startTime, endTime) => {
     return filledTimes;
 };
 // Função para restaurar os valores originais do select
-const restoreOriginalSelect = () => {
+const restoreOriginalSelect = (selectedDate) => {
     $('#time').html(originalSelectValues);
+
+    const dateObject = new Date(selectedDate);
+    let dayOfWeek = dateObject.getDay();   
+
+    if (dayOfWeek === 0 || dayOfWeek === 2 || dayOfWeek === 4) {
+        $("#time option[value='19:00']").remove();
+        $("#time option[value='20:00']").remove();
+    }
 };
 

@@ -18,7 +18,7 @@ exports.readAllReservationsServiceFunction = functions.https.onRequest(async (re
       const reservas = [];
       snapshot.forEach(doc => {
         reservas.push({
-          title: `${doc.data().local} ${doc.data().name}`,
+          title: `${doc.data().local} - ${doc.data().name}`,
           start: doc.data().time,
           end: doc.data().endTime,
           color: doc.data().status,

@@ -116,7 +116,9 @@
                                 </div>
                                 <div class="hide form-group mt-3 animate__animated animate__fadeIn" id="div2">
                                     <label for="time" class="form-label">Selecione um horário disponível:</label>
-                                    <small style="position: absolute;  top: -2vh; left: 0; font-size: 0.825rem; font-style: italic ;">Atualizado automaticamente</small>
+                                    <small
+                                        style="position: absolute;  top: -2vh; left: 0; font-size: 0.825rem; font-style: italic ;">Atualizado
+                                        automaticamente</small>
                                     <select id="time" class="form-select" required>
                                         <option value="" selected disabled>Selecione...</option>
                                         <option value="08:00">08:00</option>
@@ -148,12 +150,14 @@
                                 <div class="hide form-group mt-3 animate__animated animate__fadeIn" id="div6">
                                     <label for="rentBall" class="form-label">Alugar bola?</label>
                                     <select id="rentBall" class="form-select" required>
-                                        
+
                                         <option value="" selected disabled>Selecione...</option>
                                         <option value="1">Sim</option>
                                         <option value="2">Não</option>
                                     </select>
-                                    <small style="top: -2vh; left: 0; font-size: 0.825rem; font-style: italic ;">Acréscimo de R$ 10,00 no valor da reserva</small>
+                                    <small
+                                        style="top: -2vh; left: 0; font-size: 0.825rem; font-style: italic ;">Acréscimo
+                                        de R$ 10,00 no valor da reserva</small>
                                 </div>
                                 <div class="hide form-group mt-3 animate__animated animate__fadeIn" id="div3">
                                     <label for="paymentMethod" class="form-label">Forma de pagamento</label>
@@ -166,8 +170,8 @@
                                 </div>
                                 <div class="hide form-group animate__animated animate__fadeIn mt-3" id="div5">
                                     <input type="checkbox" id="privacyPolicyCheckbox" name="privacyPolicyCheckbox">
-                                    <label for="privacyPolicyCheckbox">Eu concordo com a <a
-                                            href="../../policy.html" target="_blank">Política de Privacidade</a></label>
+                                    <label for="privacyPolicyCheckbox">Eu concordo com a <a href="../../policy.html"
+                                            target="_blank">Política de Privacidade</a></label>
                                     <button type="submit" id="btnContinue"
                                         class="form-control btn btn-primary rounded submit px-3 ">Continuar</button>
                                     <div class="progress mt-2">
@@ -218,17 +222,17 @@
 
             $('#datepicker').datepicker({
                 language: 'pt-BR',
-                daysOfWeekDisabled: [1],
+                daysOfWeekDisabled: [],
                 todayHighlight: true,
                 toggleActive: false,
                 title: 'Dias disponíveis',
                 startDate: new Date(),
                 disableTouchKeyboard: true
             }).on('changeDate', function (e) {
-                // Fecha o datepicker após a seleção
                 $(this).datepicker('hide');
-                const selectedDate = e.date.toISOString().split('T')[0];
-                checkAvaibleTimeService(selectedDate);
+
+                const selectedDateFormatted = e.date.toISOString().split('T')[0];
+                checkAvaibleTimeService(selectedDateFormatted);
                 showDivs();
             });
 
