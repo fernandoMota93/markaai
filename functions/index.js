@@ -74,21 +74,34 @@ exports.updateExpiredDocuments = functions.pubsub.schedule('every 20 minutes').o
     const db = admin.firestore();
     const society1Ref = db.collection('Society1');
 
-    const querySnapshot = await society1Ref.where('status', '==', 'orange').get();
+    const twentyMinutesAgo = new Date(Date.now() - 20 * 60 * 1000);
+
+    const querySnapshot = await society1Ref
+      .where('status', '==', 'orange')
+      .get();
+
     if (querySnapshot.empty) {
       console.log('No matching documents.');
       return null;
     }
-    querySnapshot.forEach(async (doc) => {
-      await doc.ref.update({
-        status: 'expirado',
-        observacoes: 'Cancelado pelo batch do sistema',
-        time: 'Cancelado por falta de pagamento',
-        initialCost: 0,
-        endTime: ''
-      });
+
+    const batch = db.batch();
+    querySnapshot.forEach((doc) => {
+      const creationTimestamp = doc.data().creationTimestamp.toDate();
+      if (creationTimestamp <= twentyMinutesAgo) {
+        batch.update(doc.ref, {
+          status: 'expirado',
+          observacoes: 'Cancelado pelo batch do sistema',
+          time: 'Cancelado por falta de pagamento',
+          initialCost: 0,
+          endTime: ''
+        });
+        console.log('DOC CREATION TIME: ', creationTimestamp)
+        console.log('20 MINUTES AGO: ', twentyMinutesAgo)
+      }
     });
 
+    await batch.commit();
     console.log('Trigger executado com sucesso.');
     return null;
   } catch (error) {
@@ -96,6 +109,7 @@ exports.updateExpiredDocuments = functions.pubsub.schedule('every 20 minutes').o
     return null;
   }
 });
+
 //======INTEGRAÇÃO EFI PIX======//
 const app = express();
 app.use(cors);
@@ -159,7 +173,7 @@ app.get('/pix', async (req, res) => {
 
     const objCobranca = {
       calendario: {
-        expiracao: 3600
+        expiracao: 1200
       },
       devedor: {
         cpf: idt,

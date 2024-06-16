@@ -1,0 +1,38 @@
+exports.updateExpiredDocuments = functions.pubsub.schedule('every 20 minutes').onRun(async (context) => {
+  try {
+    const db = admin.firestore();
+    const society1Ref = db.collection('Society1');
+
+    const twentyMinutesAgo = new Date(Date.now() - 20 * 60 * 1000); // Tempo atual - 20 minutos
+
+    const querySnapshot = await society1Ref
+      .where('status', '==', 'orange')
+      .get();
+
+    if (querySnapshot.empty) {
+      console.log('No matching documents.');
+      return null;
+    }
+
+    const batch = db.batch();
+    querySnapshot.forEach((doc) => {
+      const creationTimestamp = doc.data().creationTimestamp.toDate(); // Convertendo Timestamp para Date
+      if (creationTimestamp <= twentyMinutesAgo) {
+        batch.update(doc.ref, {
+          status: 'expirado',
+          observacoes: 'Cancelado pelo batch do sistema',
+          time: 'Cancelado por falta de pagamento',
+          initialCost: 0,
+          endTime: ''
+        });
+      }
+    });
+
+    await batch.commit();
+    console.log('Trigger executado com sucesso.');
+    return null;
+  } catch (error) {
+    console.error('Erro ao executar trigger:', error);
+    return null;
+  }
+});
