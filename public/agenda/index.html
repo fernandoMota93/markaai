@@ -76,72 +76,72 @@
                     </div>
                 </div>
             </div>
-
         </div>
+    </div>
 
-        <!--FIREBASE-->
-        <script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-app-compat.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-firestore-compat.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-auth-compat.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-functions-compat.js"></script>
-        <script src="../firebase-config.js"></script>
-
-
-
-        <script>
-
-            document.addEventListener('DOMContentLoaded', function () {
-                readAllReservationsService();
-            });
+    <!--FIREBASE-->
+    <script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-functions-compat.js"></script>
+    <script src="../firebase-config.js"></script>
 
 
-            const loadCalendar = (events) => {
-                let calendarEl = document.getElementById('calendar');
-                let calendar = new FullCalendar.Calendar(calendarEl, {
-                    timeZone: 'local',
-                    locale: 'pt-br',
 
-                    themeSystem: 'standard',
-                    initialView: 'listMonth',
-                    headerToolbar: {
-                        left: 'prev,next',
-                        center: 'title',
-                        right: 'dayGridMonth,listMonth'
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function () {
+            readAllReservationsService();
+        });
+
+
+        const loadCalendar = (events) => {
+            let calendarEl = document.getElementById('calendar');
+            let calendar = new FullCalendar.Calendar(calendarEl, {
+                timeZone: 'local',
+                locale: 'pt-br',
+
+                themeSystem: 'standard',
+                initialView: 'listMonth',
+                headerToolbar: {
+                    left: 'prev,next',
+                    center: 'title',
+                    right: 'dayGridMonth,listMonth'
+                },
+                views: {
+                    dayGrid: {
+                        titleFormat: { year: 'numeric', month: 'short', day: '2-digit' }
                     },
-                    views: {
-                        dayGrid: {
-                            titleFormat: { year: 'numeric', month: 'short', day: '2-digit' }
-                        },
-                        timeGrid: {
-                            titleFormat: { year: 'numeric', month: 'short', day: '2-digit' }
-                        },
-                        week: {
-                            titleFormat: { year: 'numeric', month: 'short', day: '2-digit' }
-                        },
-                        day: {
-                            titleFormat: { year: 'numeric', month: 'short', day: '2-digit' }
-                        }
+                    timeGrid: {
+                        titleFormat: { year: 'numeric', month: 'short', day: '2-digit' }
                     },
-
-                    dayMaxEventRows: true, // for all non-TimeGrid views
-                    views: {
-                        timeGrid: {
-                            dayMaxEventRows: 5 // adjust to 6 only for timeGridWeek/timeGridDay
-                        }
+                    week: {
+                        titleFormat: { year: 'numeric', month: 'short', day: '2-digit' }
                     },
-                    events: events,
-                    eventTimeFormat: { // like '14:30:00'
-                        hour: '2-digit',
-                        minute: '2-digit',
-                        meridiem: false
+                    day: {
+                        titleFormat: { year: 'numeric', month: 'short', day: '2-digit' }
                     }
-                });
-                calendar.render();
-            }
+                },
 
-        </script>
-        <script src="../src/plugins/sweetalert.min.js"></script>
-        <script src="agendaService.js"></script>
+                dayMaxEventRows: true, // for all non-TimeGrid views
+                views: {
+                    timeGrid: {
+                        dayMaxEventRows: 5 // adjust to 6 only for timeGridWeek/timeGridDay
+                    }
+                },
+                events: events,
+                eventTimeFormat: { // like '14:30:00'
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    meridiem: false
+                }
+            });
+            calendar.render();
+        }
+
+    </script>
+    <script src="../src/plugins/sweetalert.min.js"></script>
+    <script src="agendaService.js"></script>
 </body>
 
 

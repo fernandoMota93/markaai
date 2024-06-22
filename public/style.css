@@ -91,6 +91,25 @@
     z-index: 1;
 }
 
+.accordion-button:not(.collapsed) {
+    background: #71a677!important;
+    color: #fff;
+}
+
+.accordion-button {
+    border-color: #d4ffd9!important;
+}
+
+.adjustBg {
+    
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    position: relative;
+    z-index: 1;
+
+}
+
 .container-policy {
     width: 100%;
     min-height: 100vh;
