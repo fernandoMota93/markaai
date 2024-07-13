@@ -29,7 +29,7 @@
       },
       {
         "source": "**",
-        "destination": "/404.html"
+        "destination": "/index.html"
       }
     ],
     "headers": [

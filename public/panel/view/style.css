@@ -147,3 +147,61 @@ legend.scheduler-border {
     /* Or auto */
     border-bottom: none;
 }
+
+/*====================== CALENDARIO DO DATEPICKER =========================*/
+.datepicker {
+    backdrop-filter: blur(8px);
+    color: #fff;
+    background-color: #3d5b4084;
+    text-shadow: 5px 5px 10px black;
+    border: 1px solid #ced4da;
+
+}
+
+.datepicker table {
+    width: 100%;
+}
+
+.datepicker th,
+.datepicker td {
+    text-align: center;
+    border-radius: 0;
+
+}
+
+.datepicker .table-condensed {
+    font-size: 0.85em;
+}
+
+.datepicker thead th {
+    background-color: #3d5b40;
+    color: #fff;
+}
+
+.datepicker .datepicker-switch:hover,
+.datepicker .next:hover,
+.datepicker .prev:hover,
+.datepicker tfoot tr th:hover {
+    background-color: #01d28e;
+}
+
+.datepicker tbody td {
+    cursor: pointer;
+}
+
+.datepicker tbody td.today {
+    background-color: #f0ad4e;
+    color: #fff;
+}
+
+.datepicker tbody td.active,
+.datepicker tbody td.active:hover {
+    background-color: #01d28e !important;
+    color: #fff;
+}
+
+.hide {
+    display: none;
+    transition: opacity 3s ease-in-out;
+    opacity: 1;
+}

@@ -4,6 +4,8 @@ const PRICE_MULTIPLIER = 150;
 const signOutBtn = document.getElementById('signOutBtn');
 const btnPeriod = document.getElementById('btnPeriod');
 
+
+
 signOutBtn.addEventListener('click', (e) => {
     e.preventDefault();
 
@@ -12,7 +14,7 @@ signOutBtn.addEventListener('click', (e) => {
     }).catch((error) => {
         // An error happened.
     });
-})
+});
 
 btnPeriod.addEventListener('click', async (e) => {
 
@@ -34,6 +36,8 @@ btnPeriod.addEventListener('click', async (e) => {
         getDataServiceBySelect(formattedDate);
     };
 });
+
+
 
 
 const maskIdentification = (identification) => {
@@ -132,7 +136,31 @@ const handlerUpdateData = (id) => {
     let btnUpdate = document.getElementById('btnUpdate');
 
     btnUpdate.addEventListener("click", (e) => {
-        e.preventDefault()
-        updateCostumerEventDataService(id)
+        e.preventDefault();
+        updateCostumerEventDataService(id);
     })
 }
+const handlerDeleteData = (id) => {
+    let btnDelete = document.getElementById('btnDelete');
+
+    btnDelete.addEventListener("click", (e) => {
+        e.preventDefault();
+        deleteCostumerEventDataService(id);
+        modal.hide();
+    })
+}
+
+const updateDropdown = (selectedTimes) => {
+    const dropdown = document.getElementById('time');
+    selectedTimes.forEach(selectedTime => {
+        const optionToRemove = dropdown.querySelector(`option[value="${selectedTime.split('T')[1].substring(0, 5)}"]`);
+        if (optionToRemove) optionToRemove.remove();
+    });
+};
+
+const showDivs = () => {
+    // Exibe as três divs
+    $('#div1, #div2, #div4').removeClass('hide');
+}
+
+

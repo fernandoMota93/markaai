@@ -48,7 +48,7 @@ exports.createNewReservationServiceFunction = functions.https.onRequest(async (r
       const newReservationRef = await admin.firestore().collection('Society1').add({
         ...reservationData,
         initialCost: reservationData.rentBall === '1' ? TIME_VALUE + 10 : TIME_VALUE,
-        status: 'orange',
+        status: reservationData.paymentMethod === 'free' ? 'blue' : 'orange'  ,
         creationTimestamp: admin.firestore.FieldValue.serverTimestamp() // definindo status como pendente por padrão
       });
       const newReservationId = newReservationRef.id; // Obter o ID do documento recém-criado
@@ -158,13 +158,11 @@ app.get('/pix', async (req, res) => {
       res.redirect('https://markaai.web.app/404.html');
     };
 
-    //redireciona se o ticket de pagamento ja existe e dentro da validade
     if (doc.data().txid && doc.data().status == 'green') {
-      //res.send(304).send('Documento ja existe');
+
       res.redirect('https://markaai.web.app/index.html');
     };
 
-    //redireciona a forbidden caso o ticket esteja expirado
     if (doc.data().status == 'expirado' || doc.data().status == 'cancelado') {
       res.redirect('https://markaai.web.app/403.html');
     };
@@ -184,17 +182,14 @@ app.get('/pix', async (req, res) => {
       }
     };
 
-    // Adiciona os dados extras ao objeto objCobranca
     objCobranca.chave = process.env.PIX_KEY;
     objCobranca.solicitacaoPagador = "Informe o número ou identificador do pedido.";
 
-    //visualiza o que tem no objeto
     console.log(objCobranca);
 
-    // Função para gerar uma string aleatória de comprimento entre 26 e 35 caracteres
     function generateRandomString() {
       const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-      const length = Math.floor(Math.random() * 10) + 26; // Comprimento entre 26 e 35 caracteres
+      const length = Math.floor(Math.random() * 10) + 26; 
       let result = '';
       for (let i = 0; i < length; i++) {
         result += characters.charAt(Math.floor(Math.random() * characters.length));
@@ -202,11 +197,8 @@ app.get('/pix', async (req, res) => {
       return result;
     }
 
-    // Criar um txid usando a função geradora
-    // o firebase nao retornou o txid automatico
     let txid = generateRandomString();
 
-    //associa a cobranca ao documento
     const cobResponse = await reqEFI.put(`/v2/cob/${txid}`, JSON.stringify(objCobranca));
 
     const updateData = {
@@ -215,7 +207,6 @@ app.get('/pix', async (req, res) => {
 
     await docRef.set(updateData, { merge: true });
 
-    //renderizar a pagina de checkout
     const qrcodeResponse = await reqEFI.get(`/v2/loc/${cobResponse.data.loc.id}/qrcode`);
     const template = fs.readFileSync('./views/checkout.ejs', 'utf-8');
     const renderedPage = ejs.render(template, {
@@ -238,7 +229,6 @@ app.get('/pix', async (req, res) => {
 exports.pix2 = functions.https.onRequest(app);
 
 exports.webhook = functions.https.onRequest(async (req, res) => {
-  // Verifica se a solicitação é do tipo POST
   if (req.method !== 'POST') {
     return res.status(405).send('Method Not Allowed');
   }
@@ -246,7 +236,6 @@ exports.webhook = functions.https.onRequest(async (req, res) => {
   console.log('Gerencianet Webhook data:', req.body);
   // Processar a notificação da Gerencianet
   try {
-    // Verifica se req.body.pix.txid está definido
     if (req.body.pix[0].txid) {
       const txid = req.body.pix[0].txid;
       const toMail = {
@@ -260,15 +249,11 @@ exports.webhook = functions.https.onRequest(async (req, res) => {
 
       const querySnapshot = await admin.firestore().collection('Society1').where('txid', '==', txid).get();
       querySnapshot.forEach(async (doc) => {
-
-        // Atualiza o documento
         await doc.ref.update(
           {
             status: 'green',
             endToEndId: req.body.pix[0].endToEndId
           });
-
-        // Formata a data para o formato DD/MM/AAA HH:MM
         const dataString = doc.data().time;
         const data = new Date(dataString);
 
@@ -280,8 +265,6 @@ exports.webhook = functions.https.onRequest(async (req, res) => {
         const dataFormatada = `${dia}/${mes}/${ano} - ${horas}`;
 
         console.log(dataFormatada);
-
-        //adicionar os campos para o email
         toMail.id = doc.id;
         toMail.name = doc.data().name;
         toMail.time = dataFormatada;
@@ -837,7 +820,7 @@ exports.webhook = functions.https.onRequest(async (req, res) => {
         //disparar email para o cliente
         const mailDeliver = await admin.firestore().collection('mail').add(
           {
-            to: "mottta.h@gmail.com",
+            to: "clubesargentoscuiaba@gmail.com",
             message: {
               subject: "Marka Aí - Reserva",
               text: "This is the plaintext section of the email body.",
@@ -850,6 +833,5 @@ exports.webhook = functions.https.onRequest(async (req, res) => {
   } catch (error) {
     console.error('Erro no firebase: ', error);
   }
-  // Responda com um status 200 para confirmar o recebimento da solicitação
   res.status(200).send('OK');
 });

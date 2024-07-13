@@ -13,6 +13,8 @@
     <link href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css' rel='stylesheet'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-datepicker@1.9.0/dist/css/bootstrap-datepicker.min.css"
+    rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 
 </head>
@@ -28,18 +30,25 @@
                     data-bs-parent="#sidebar" data-bs-target="#sidebar" data-bs-toggle="collapse"><i
                         class="fa fa-dashboard"></i> <span class="d-none d-sm-inline">Painel Completo
                     </span> </a>
+                <button class="list-group-item border-0 d-inline-block text-truncate" onclick="individualPlay()"
+                    style="color: white"><i class="fa-solid fa-user"></i> <span class="d-none d-sm-inline">Jogo
+                        único</span></button>
+                <button class="list-group-item border-0 d-inline-block text-truncate" onclick="bundleModal()"
+                    style="color: white"><i class="fa-solid fa-user-group"></i> <span class="d-none d-sm-inline">Novo
+                        pacote</span></button>
 
-                <a href="#" class="list-group-item border-0 d-inline-block text-truncate" style="color: white"
-                    data-bs-parent="#sidebar"><i class="fa-solid fa-user-group"></i> <span
-                        class="d-none d-sm-inline">Mensalistas</span></a>
+                <button class="list-group-item border-0 d-inline-block text-truncate" data-bs-toggle="modal"
+                    data-bs-target="#" style="color: white"><i class="fa-solid fa-file-zipper"></i> <span
+                        class="d-none d-sm-inline">Gerir pacote</span></button>
+
                 <a href="../../agenda/index.html" class="list-group-item border-0 d-inline-block text-truncate"
                     style="color: white" data-bs-parent="#sidebar"><i class="fa fa-calendar"></i> <span
                         class="d-none d-sm-inline">Agenda</span></a>
                 <a href="mailto:mottta.h@gmail.com" class="list-group-item border-0 d-inline-block text-truncate"
                     style="color: white" data-bs-parent="#sidebar"><i class="fa fa-envelope"></i> <span
                         class="d-none d-sm-inline">Suporte</span></a>
-                <button type='button' class="list-group-item border-0 d-inline-block text-truncate" id="signOutBtn" style="color: white"
-                    data-bs-parent="#sidebar"><i class="fa fa-sign-out"></i> <span
+                <button type='button' class="list-group-item border-0 d-inline-block text-truncate" id="signOutBtn"
+                    style="color: white" data-bs-parent="#sidebar"><i class="fa fa-sign-out"></i> <span
                         class="d-none d-sm-inline">Sair</span></button>
             </div>
         </div>
@@ -69,8 +78,9 @@
                 </div>
                 <div class="d-flex align-items-center">
                     <p class="lead me-2" id='currentMonth'>{{currentMonth}}</p>
-                    <button class="border rounded-3 text-decoration-none text text-success" id="btnPeriod" style="font-size: 10px;"><i
-                            class="fa fa-calendar" aria-hidden="true"></i> Mudar período</button>
+                    <button class="border rounded-3 text-decoration-none text text-success" id="btnPeriod"
+                        style="font-size: 10px;"><i class="fa fa-calendar" aria-hidden="true"></i> Mudar
+                        período</button>
                 </div>
 
                 <hr>
@@ -188,47 +198,55 @@
             </div>
             <!-- Modal de Edição -->
             <div id="updateModal"></div>
+            <div id="bundleModal"></div>
+            <div id="individualPlayModal"></div>
+            <div id="deleteModal"></div>
+
+
             <!--Live Toast Component-->
             <div id="toast"></div>
             <!--Live Toast Component-->
-        </main>
-    </div>
-    <!--FIREBASE-->
-    <script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-firestore-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-functions-compat.js"></script>
-    <script src="../../firebase-config.js"></script>
-    <!--PLUGINS-->
-    <script src="../../src/plugins/jquery-3.7.1.min.js"></script>
-    <script src="../../src/plugins/jquery.dataTables.js"></script>
-    <script src="../../src/plugins/dataTables.bootstrap5.min.js"></script>
-    <script src="../../src/scripts/toast.js"></script>
-    <script src="../../src/plugins/handlebars.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="../../src/plugins/sweetalert.min.js"></script>
 
 
-    <script src="../model/panelModel.js"></script>
-    <script src="panelView.js"></script>
-    <script src="../service/panelService.js"></script>
-    <script src="../controller/panelController.js"></script>
+            <!--FIREBASE-->
+            <script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-app-compat.js"></script>
+            <script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-firestore-compat.js"></script>
+            <script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-auth-compat.js"></script>
+            <script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-functions-compat.js"></script>
+            <script src="../../firebase-config.js"></script>
+            <!--PLUGINS-->
+            <script src="../../src/plugins/jquery-3.7.1.min.js"></script>
+            <script src="../../src/plugins/bootstrap-datepicker.min.js"></script>
+            <script src="../../src/plugins/bootstrap-datepicker.pt-BR.min.js"></script>
+            <script src="../../src/plugins/jquery.dataTables.js"></script>
+            <script src="../../src/plugins/dataTables.bootstrap5.min.js"></script>
+            <script src="../../src/scripts/toast.js"></script>
+            <script src="../../src/plugins/handlebars.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+            <script src="../../src/plugins/sweetalert.min.js"></script>
 
-    <script src="../../src/plugins/vanilla-masker.min.js"></script>
+
+            <script src="../model/panelModel.js"></script>
+            <script src="panelView.js"></script>
+            <script src="../controller/panelController.js"></script>
+            <script src="../service/panelService.js"></script>
+            
+
+            <script src="../../src/plugins/vanilla-masker.min.js"></script>
 
 
-    <script>
-        checkAuth();
-        $(document).ready(function () {
-            $('#myTable').DataTable({
-                "language": {
-                    "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Portuguese.json"
-                }
-            });
-            getDataService();
-            getMonthAndYear();
-        });
-    </script>
+            <script>
+                checkAuth();
+                $(document).ready(function () {
+                    $('#myTable').DataTable({
+                        "language": {
+                            "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Portuguese.json"
+                        }
+                    });
+                    getDataService();
+                    getMonthAndYear();
+                });
+            </script>
 
 
 

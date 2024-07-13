@@ -136,19 +136,19 @@ proccedToPay.addEventListener('change', (e) => {
 const updateDropdown = (selectedTimes, selectedDate) => {
     const dropdown = document.getElementById('time');
 
-    // Remover opções já ocupadas
     selectedTimes.forEach(selectedTime => {
         const optionToRemove = dropdown.querySelector(`option[value="${selectedTime.split('T')[1].substring(0, 5)}"]`);
         if (optionToRemove) optionToRemove.remove();
     });
 
-    const dateObject = new Date(selectedDate);
-    let dayOfWeek = dateObject.getDay();   
+   // const dateObject = new Date(selectedDate);
+   // let dayOfWeek = dateObject.getDay();   
 
-    if (dayOfWeek === 0 || dayOfWeek === 2 || dayOfWeek === 4) {
-        $("#time option[value='19:00']").remove();
-        $("#time option[value='20:00']").remove();
-    }
+    //if (dayOfWeek === 4) {
+       // $("#time option[value='18:00']").remove();
+       // $("#time option[value='19:00']").remove();
+        //$("#time option[value='20:00']").remove();
+    //}
 };
 
 const showDivs = () => {

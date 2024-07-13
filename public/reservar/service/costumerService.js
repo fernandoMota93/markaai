@@ -52,6 +52,7 @@ const createNewReservationService = (reservationData) => {
 }
 
 const checkAvaibleTimeService = (selectedDate) => {
+    console.log({selectedDate})
     docRef
         .where('time', '>=', selectedDate + 'T00:00:00-04:00')
         .where('time', '<=', selectedDate + 'T23:59:59-04:00')
@@ -76,7 +77,7 @@ const checkAvaibleTimeService = (selectedDate) => {
                 updateDropdown(selectedTimes, selectedDate);
             } else {
                 // Se não há valores, restaura os valores originais do select
-                restoreOriginalSelect(selectedDate);
+                //restoreOriginalSelect(selectedDate);
             }
         })
         .catch(error => console.error("Erro ao obter os horários selecionados:", error));
@@ -99,7 +100,8 @@ const restoreOriginalSelect = (selectedDate) => {
     const dateObject = new Date(selectedDate);
     let dayOfWeek = dateObject.getDay();   
 
-    if (dayOfWeek === 0 || dayOfWeek === 2 || dayOfWeek === 4) {
+    if (dayOfWeek === 4) {
+        $("#time option[value='18:00']").remove();
         $("#time option[value='19:00']").remove();
         $("#time option[value='20:00']").remove();
     }

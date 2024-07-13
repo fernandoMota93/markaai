@@ -193,6 +193,20 @@ const updateCostumerEventDataService = (id) => {
         })
 }
 
+const deleteCostumerEventDataService = (id) => {
+    docRef
+        .doc(id)
+        .delete()
+        .then(() => {
+            toastShow('Aviso', `Excluído com sucesso.`);
+            setTimeout(() => {
+                location.reload();
+            }, 2000);
+        }).catch((err) => {
+            toastShow('Aviso', `Erro: ${err}.`, 'danger');
+        })
+}
+
 const checkPix = async (id) => {
     try {
         swal({
@@ -246,3 +260,69 @@ const checkPix = async (id) => {
         });
     }
 }
+
+const checkAvaibleTimeService = (selectedDate) => {
+    console.log({ selectedDate })
+    docRef
+        .where('time', '>=', selectedDate + 'T00:00:00-04:00')
+        .where('time', '<=', selectedDate + 'T23:59:59-04:00')
+        .get()
+        .then(querySnapshot => {
+            const selectedTimes = [];
+            querySnapshot.forEach(doc => {
+                const startTime = doc.data().time;
+                const endTime = doc.data().endTime;
+                selectedTimes.push(startTime, endTime);
+                // Verifica e preenche lacunas dentro do intervalo
+                const gapTimes = fillTimeGaps(startTime, endTime);
+                selectedTimes.push(...gapTimes);
+            });
+
+            console.log(selectedTimes.sort())
+
+            // Verifica se há horários selecionados
+            if (selectedTimes.length > 0) {
+                // Se há valores, exibe as divs e atualiza o dropdown
+                updateDropdown(selectedTimes);
+            }
+            showDivs();
+        })
+        .catch(error => console.error("Erro ao obter os horários selecionados:", error));
+};
+
+const fillTimeGaps = (startTime, endTime) => {
+    const filledTimes = [];
+    const startHour = parseInt(startTime.slice(11, 13));
+    const endHour = parseInt(endTime.slice(11, 13));
+    for (let i = startHour + 1; i < endHour; i++) {
+        filledTimes.push(startTime.slice(0, 11) + ('0' + i).slice(-2) + ":00-04:00");
+    }
+    return filledTimes;
+};
+
+const createNewReservationService = (reservationData) => {
+    const createNewReservationServiceFunction = firebase.functions().httpsCallable('createNewReservationServiceFunction');
+    swal({
+        title: 'Aguarde',
+        text: `Salvando no banco`,
+        icon: 'info',
+        closeOnClickOutside: false,
+        closeOnEsc: false,
+        buttons: false,
+    });
+    createNewReservationServiceFunction(reservationData)
+        .then(result => {
+            console.log(result.data)
+            const reservationId = result.data.id;
+            swal.close()
+            toastShow('Aviso', `Novo jogo gratuito salvo`);
+            console.log('Reserva criada com sucesso. ID:', reservationId);
+            setTimeout(() => {
+                location.reload();
+            }, 2000);
+        })
+        .catch(error => {
+            console.error('Erro ao criar reserva:', error);
+        });
+}
+

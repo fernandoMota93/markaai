@@ -73,6 +73,9 @@ a {
 .laranja {
     background-color: orange;
 }
+.azul {
+    background-color: blue;
+}
 /* Calendar themed */
 .fc-theme-standard .fc-popover {
     background: #505050;
