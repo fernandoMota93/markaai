@@ -152,10 +152,11 @@ const handlerDeleteData = (id) => {
 
 const updateDropdown = (selectedTimes) => {
     const dropdown = document.getElementById('time');
-    selectedTimes.forEach(selectedTime => {
+    selectedTimes.slice(0, -1).forEach(selectedTime => {
         const optionToRemove = dropdown.querySelector(`option[value="${selectedTime.split('T')[1].substring(0, 5)}"]`);
         if (optionToRemove) optionToRemove.remove();
     });
+
 };
 
 const showDivs = () => {

@@ -4,6 +4,9 @@ const DEBIT_TAX = 0.239;
 const PROGRAMMER_TIP = 0.015;
 
 const dataToViewDashBoard = (dataGathered, paymentOk) => {
+    console.log(dataGathered)
+    console.log(paymentOk)
+
     //******************DASHBOARD******************//
     //taxas de transação
     const pix = 1 - PIX_TAX;

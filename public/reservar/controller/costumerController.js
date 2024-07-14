@@ -44,9 +44,9 @@ timeSelected.addEventListener('change', (e) => {
     const nextTime = nextTimeOption ? nextTimeOption.value : null;
     const nextTime2 = nextTimeOption2 ? nextTimeOption2.value : null;
 
-   // console.log("Selected time:", selectedTime);
+    // console.log("Selected time:", selectedTime);
     //console.log("Next time:", nextTime);
-   // console.log("Next time 2:", nextTime2);
+    // console.log("Next time 2:", nextTime2);
 
 
     if (!nextTime && !nextTime2 && selectedTime == '22:00') {
@@ -136,18 +136,18 @@ proccedToPay.addEventListener('change', (e) => {
 const updateDropdown = (selectedTimes, selectedDate) => {
     const dropdown = document.getElementById('time');
 
-    selectedTimes.forEach(selectedTime => {
+    selectedTimes.slice(0, -1).forEach(selectedTime => {
         const optionToRemove = dropdown.querySelector(`option[value="${selectedTime.split('T')[1].substring(0, 5)}"]`);
         if (optionToRemove) optionToRemove.remove();
     });
 
-   // const dateObject = new Date(selectedDate);
-   // let dayOfWeek = dateObject.getDay();   
+    // const dateObject = new Date(selectedDate);
+    // let dayOfWeek = dateObject.getDay();   
 
     //if (dayOfWeek === 4) {
-       // $("#time option[value='18:00']").remove();
-       // $("#time option[value='19:00']").remove();
-        //$("#time option[value='20:00']").remove();
+    // $("#time option[value='18:00']").remove();
+    // $("#time option[value='19:00']").remove();
+    //$("#time option[value='20:00']").remove();
     //}
 };
 
@@ -159,7 +159,7 @@ const showDivs = () => {
 
 btnContinue.addEventListener('click', (e) => {
     e.preventDefault();
-    
+
     // Verifica se todos os campos obrigatórios estão preenchidos
     const form = document.getElementById('create-reservation');
     const requiredInputs = form.querySelectorAll('[required]');
@@ -258,7 +258,7 @@ createReservation.addEventListener('submitReservation', (e) => {
     let formattedHours = ('0' + endTime.getHours()).slice(-2);
     let formattedMinutes = ('0' + endTime.getMinutes()).slice(-2);
     let formattedEndTime = `${formattedHours}:${formattedMinutes}`;
-   // console.log(`End Time: ${formattedEndTime}`)
+    // console.log(`End Time: ${formattedEndTime}`)
 
     if (formattedEndTime == '01:00' || formattedEndTime == '00:00') {
         endTime = `${convertDateFormatMoreOneDay(document.getElementById('datepicker').value)}T${formattedEndTime}:00-04:00`;
