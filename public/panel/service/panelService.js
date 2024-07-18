@@ -29,21 +29,28 @@ const getDataService = () => {
         .get()
         .then((querySnapshot) => {
             const documents = [];
+            const paymentMethodCosts = {};
             querySnapshot.forEach((doc) => {
                 const dataid = doc.id;
                 const data = doc.data();
                 const duration = data.duration;
                 const paymentMethod = data.paymentMethod;
+                const realCost = data.initialCost;
                 paymentOk[1] += doc.data().status === 'green' ? 1 : 0;
                 durationsByPaymentMethod[paymentMethod] += doc.data().status === 'green' ? duration : 0
                 documents.push(processDocumentData(data, dataid));
+                if (!paymentMethodCosts[paymentMethod]) {
+                    paymentMethodCosts[paymentMethod] = realCost; 
+                }
+               
             });
 
             const durationsByPaymentMethodWithPrice = {};
             Object.keys(durationsByPaymentMethod).forEach((method) => {
-                durationsByPaymentMethodWithPrice[method] = calculatePrice(durationsByPaymentMethod[method]);
+                const cost = paymentMethodCosts[method];
+                durationsByPaymentMethodWithPrice[method] = calculatePrice(durationsByPaymentMethod[method], cost);
             });
-
+            
             const totalDocuments = {
                 documents: querySnapshot.size,
                 durationsByPaymentMethodWithPrice: durationsByPaymentMethodWithPrice
@@ -84,6 +91,7 @@ const getDataServiceBySelect = async (formattedDate) => {
         .then(async (querySnapshot) => {
             if (querySnapshot.size > 0) {
                 const documents = [];
+                const paymentMethodCosts = {};
                 querySnapshot.forEach((doc) => {
                     const dataid = doc.id;
                     const data = doc.data();
@@ -92,11 +100,14 @@ const getDataServiceBySelect = async (formattedDate) => {
                     paymentOk[1] += doc.data().status === 'green' ? 1 : 0;
                     durationsByPaymentMethod[paymentMethod] += doc.data().status === 'green' ? duration : 0
                     documents.push(processDocumentData(data, dataid));
+                    if (!paymentMethodCosts[paymentMethod]) {
+                        paymentMethodCosts[paymentMethod] = data.initialCost; // Armazena o custo inicial para cada método de pagamento
+                    }
                 });
-
                 const durationsByPaymentMethodWithPrice = {};
                 Object.keys(durationsByPaymentMethod).forEach((method) => {
-                    durationsByPaymentMethodWithPrice[method] = calculatePrice(durationsByPaymentMethod[method]);
+                    const cost = paymentMethodCosts[method];
+                    durationsByPaymentMethodWithPrice[method] = calculatePrice(durationsByPaymentMethod[method], cost);
                 });
 
                 const totalDocuments = {
@@ -291,6 +302,7 @@ const checkAvaibleTimeService = (selectedDate) => {
 };
 
 const fillTimeGaps = (startTime, endTime) => {
+    console.log(startTime)
     const filledTimes = [];
     const startHour = parseInt(startTime.slice(11, 13));
     const endHour = parseInt(endTime.slice(11, 13));

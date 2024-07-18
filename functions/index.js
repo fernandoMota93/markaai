@@ -18,7 +18,7 @@ exports.readAllReservationsServiceFunction = functions.https.onRequest(async (re
       const reservas = [];
       snapshot.forEach(doc => {
         reservas.push({
-          title: `${doc.data().local} - ${doc.data().name}`,
+          title: `${doc.data().local} - ${doc.data().name} - ${doc.data().rentBall === "1" ? `⚽`:``}`,
           start: doc.data().time,
           end: doc.data().endTime,
           color: doc.data().status,
@@ -244,7 +244,8 @@ exports.webhook = functions.https.onRequest(async (req, res) => {
         time: '',
         local: '',
         duration: '',
-        value: ''
+        value: '',
+        email: '',
       }
 
       const querySnapshot = await admin.firestore().collection('Society1').where('txid', '==', txid).get();
@@ -271,6 +272,7 @@ exports.webhook = functions.https.onRequest(async (req, res) => {
         toMail.local = doc.data().local;
         toMail.duration = doc.data().duration;
         toMail.value = doc.data().duration * doc.data().initialCost;
+        toMail.email = doc.data().email;
 
         console.log('Documento atualizado com sucesso:', doc.id);
         //template do email para o cliente
@@ -820,7 +822,7 @@ exports.webhook = functions.https.onRequest(async (req, res) => {
         //disparar email para o cliente
         const mailDeliver = await admin.firestore().collection('mail').add(
           {
-            to: "clubesargentoscuiaba@gmail.com",
+            to: toMail.email,
             message: {
               subject: "Marka Aí - Reserva",
               text: "This is the plaintext section of the email body.",

@@ -93,7 +93,6 @@ const formatDateWithOffset = (date, isStartOfDay) => {
     return `${isoDate}T${timeOfDay}${offsetString}`;
 };
 
-const calculatePrice = (duration) => duration * PRICE_MULTIPLIER;
 
 const processDocumentData = (data, dataid) => ({
     id: dataid,
@@ -104,8 +103,12 @@ const processDocumentData = (data, dataid) => ({
     time: data.status !== 'expirado' ? formatDateTime(data.time) : data.time,
     endTime: data.status !== 'expirado' ? formatDateTime(data.endTime) : 'Se precisar cheque nas opções',
     paymentMethod: data.paymentMethod,
+    initialCost: data.initialCost,
+    rentBall: data.rentBall !== '1' ? 'Sim' : 'Não',
     status: data.status
 });
+
+const calculatePrice = (duration, cost) => duration * cost;
 
 
 const formatDateToEditController = (dataOriginal) => {
@@ -148,7 +151,7 @@ const handlerDeleteData = (id) => {
         deleteCostumerEventDataService(id);
         modal.hide();
     })
-}
+};
 
 const updateDropdown = (selectedTimes) => {
     const dropdown = document.getElementById('time');
@@ -161,7 +164,7 @@ const updateDropdown = (selectedTimes) => {
 
 const showDivs = () => {
     // Exibe as três divs
-    $('#div1, #div2, #div4').removeClass('hide');
+    $('#div1, #div2').removeClass('hide');
 }
 
 

@@ -1,4 +1,5 @@
 
+const { format, addMinutes, parseISO, differenceInHours, differenceInMinutes  } = dateFns;
 const progressBar = document.getElementById('progress-bar');
 const updateProgressBar = (percentage) => {
     progressBar.style.width = percentage + '%';
@@ -52,7 +53,7 @@ const createNewReservationService = (reservationData) => {
 }
 
 const checkAvaibleTimeService = (selectedDate) => {
-    console.log({selectedDate})
+    console.log({ selectedDate })
     docRef
         .where('time', '>=', selectedDate + 'T00:00:00-04:00')
         .where('time', '<=', selectedDate + 'T23:59:59-04:00')
@@ -62,12 +63,12 @@ const checkAvaibleTimeService = (selectedDate) => {
             querySnapshot.forEach(doc => {
                 const startTime = doc.data().time;
                 const endTime = doc.data().endTime;
-                selectedTimes.push(startTime, endTime);
+
                 const gapTimes = fillTimeGaps(startTime, endTime);
                 selectedTimes.push(...gapTimes);
             });
 
-            console.log(selectedTimes.sort())
+            console.log(selectedTimes.sort());
 
             // Verifica se há horários selecionados
             if (selectedTimes.length > 0) {
@@ -76,23 +77,25 @@ const checkAvaibleTimeService = (selectedDate) => {
                 updateDropdown(selectedTimes, selectedDate);
             } else {
                 // Se não há valores, restaura os valores originais do select
-                //restoreOriginalSelect(selectedDate);
+                // restoreOriginalSelect(selectedDate);
             }
         })
         .catch(error => console.error("Erro ao obter os horários selecionados:", error));
 };
 
-// Função para preencher as lacunas apenas dentro de cada documento
 const fillTimeGaps = (startTime, endTime) => {
     const filledTimes = [];
-    const startHour = parseInt(startTime.slice(11, 13));
-    const endHour = parseInt(endTime.slice(11, 13));
-    for (let i = startHour + 1; i < endHour; i++) {
-        filledTimes.push(startTime.slice(0, 11) + ('0' + i).slice(-2) + ":00-04:00");
+    let current = parseISO(startTime);
+    const end = parseISO(endTime);
+
+    while (current <= end) {
+        filledTimes.push(format(current, "yyyy-MM-dd'T'HH:mm:ssXXX"));
+        current = addMinutes(current, 30);
     }
+
     return filledTimes;
 };
-// Função para restaurar os valores originais do select
+// Função para restaurar os valores originais do select das horas
 const restoreOriginalSelect = (selectedDate) => {
     $('#time').html(originalSelectValues);
 

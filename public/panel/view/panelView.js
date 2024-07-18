@@ -99,24 +99,27 @@ const dataToViewDashBoardBySelect = (dataGathered, paymentOk) => {
 }
 
 const formatDataForDataTable = (documents) => {
-    return documents.map(document => [
-        document.name,
-        document.identification == null ? '' : document.identification,
-        document.contact  == null ? '' : document.contact,
-        typeof document.time != String ? `${document.time} - ${document.endTime}` : 'dsadas',
-        document.local,
-        document.status === 'green' ? 'Pago' :
-            document.status === 'expirado' ? 'Ticket Expirado' :
-                document.status === 'orange' ? 'Ag. Pagamento' : 
-                    document.status === 'blue' ? 'Marcou como Socio' : 'Cancelado',
-        document.paymentMethod === '1' ? 'PIX' :
-            document.paymentMethod === '2' ? 'Crédito' :
-                document.paymentMethod === '3' ? 'Débito' : 'Outro',
-        `<button class="btn btn-success p-1" onclick="checkPix('${document.id}')"><i class="bi bi-check-square"></i></button>&nbsp` + // Autorizar
-        `<button class="btn btn-warning p-1"onclick="renderEditModal('${document.id}')"><i class="bi bi-pencil-square"></i></button>&nbsp` + // Editar
-        `${document.status === 'blue' ? `<button class="btn btn-danger p-1" onclick="renderConfirmModal('${document.id}')"><i class="bi bi-trash"></i></button>&nbsp` : `` }` +
-        `<button class="btn btn-info p-1"><i class="bi bi-cash"></i></button>`
-    ]);
+    return documents
+        .filter(document => document.status !== 'expirado')
+        .map(document => [
+            document.name,
+            document.identification == null ? '' : document.identification,
+            document.contact == null ? '' : document.contact,
+            typeof document.time != String ? `${document.time} - ${document.endTime}` : 'dsadas',
+            document.local,
+            document.status === 'green' ? 'Pago' :
+                document.status === 'expirado' ? 'Ticket Expirado' :
+                    document.status === 'orange' ? 'Ag. Pagamento' :
+                        document.status === 'blue' ? 'Marcou como Socio' : 'Cancelado',
+            document.paymentMethod === '1' ? 'PIX' :
+                document.paymentMethod === '2' ? 'Crédito' :
+                    document.paymentMethod === '3' ? 'Débito' : 'Outro',
+            document.rentBall,
+            `<button class="btn btn-success p-1" onclick="checkPix('${document.id}')"><i class="bi bi-check-square"></i></button>&nbsp` + // Autorizar
+            `<button class="btn btn-warning p-1"onclick="renderEditModal('${document.id}')"><i class="bi bi-pencil-square"></i></button>&nbsp` + // Editar
+            `${document.status === 'blue' ? `<button class="btn btn-danger p-1" onclick="renderConfirmModal('${document.id}')"><i class="bi bi-trash"></i></button>&nbsp` : ``}` +
+            `<button class="btn btn-info p-1"><i class="bi bi-cash"></i></button>`
+        ]);
 
 }
 
@@ -476,58 +479,58 @@ const individualPlay = () => {
 
     });
 
-    createReservation.addEventListener('submit',(e) => {
+    createReservation.addEventListener('submit', (e) => {
         e.preventDefault();
-    
+
         const convertDateFormat = (inputDate) => {
             const dateParts = inputDate.split('/');
-    
+
             if (dateParts.length === 3) {
                 const day = dateParts[0];
                 const month = dateParts[1];
                 const year = dateParts[2];
-    
+
                 const outputDate = `${year}-${month}-${day}`;
-    
+
                 return outputDate;
             } else {
-    
+
                 console.error('Formato de data inválido. Use DD/MM/YYYY.');
                 return null;
             }
         };
         const convertDateFormatMoreOneDay = (inputDate) => {
             const dateParts = inputDate.split('/');
-    
+
             if (dateParts.length === 3) {
                 const day = dateParts[0];
                 const month = dateParts[1];
                 const year = dateParts[2];
-    
+
                 const moreOneDay = parseInt(day) + 1;
                 const outputDate = `${year}-${month}-${moreOneDay}`;
-    
+
                 return outputDate;
             } else {
                 console.error('Formato de data inválido. Use DD/MM/YYYY.');
                 return null;
             }
         };
-    
+
         let name = document.getElementById('nomeResponsavel').value;
         let time = `${convertDateFormat(document.getElementById('datepicker').value)}T${document.getElementById('time').value}:00-04:00`;
         //let local = document.getElementById('local').value;
-    
+
         let selectedDuration = parseInt(document.getElementById('duration').value);
         let endTime = new Date(time);
-    
+
         endTime.setHours(endTime.getHours() + selectedDuration);
-    
-    
+
+
         let formattedHours = ('0' + endTime.getHours()).slice(-2);
         let formattedMinutes = ('0' + endTime.getMinutes()).slice(-2);
         let formattedEndTime = `${formattedHours}:${formattedMinutes}`;
-    
+
         if (formattedEndTime == '01:00' || formattedEndTime == '00:00') {
             endTime = `${convertDateFormatMoreOneDay(document.getElementById('datepicker').value)}T${formattedEndTime}:00-04:00`;
         } else {
@@ -549,7 +552,7 @@ const individualPlay = () => {
     timeSelected.addEventListener('change', (e) => {
         e.preventDefault();
         $('#div4').removeClass('hide');
-    
+
         const selectedIndex = timeSelected.selectedIndex;
         const selectedTimeOption = timeSelected.options[selectedIndex];
         const selectedTime = selectedTimeOption ? selectedTimeOption.value : null;
@@ -557,12 +560,12 @@ const individualPlay = () => {
         const nextTimeOption2 = timeSelected.options[selectedIndex + 2];
         const nextTime = nextTimeOption ? nextTimeOption.value : null;
         const nextTime2 = nextTimeOption2 ? nextTimeOption2.value : null;
-    
-       // console.log("Selected time:", selectedTime);
+
+        // console.log("Selected time:", selectedTime);
         //console.log("Next time:", nextTime);
-       // console.log("Next time 2:", nextTime2);
-    
-    
+        // console.log("Next time 2:", nextTime2);
+
+
         if (!nextTime && !nextTime2 && selectedTime == '22:00') {
             $('#duration option').each(function () {
                 const optionValue = $(this).val();
@@ -571,7 +574,7 @@ const individualPlay = () => {
                 $(this).prop('disabled', shouldDisable);
             });
         }
-    
+
         if (!nextTime && !nextTime2 && selectedTime != '22:00') {
             $('#duration option').each(function () {
                 const optionValue = $(this).val();
@@ -580,22 +583,22 @@ const individualPlay = () => {
                 $(this).prop('disabled', shouldDisable);
             });
         }
-    
-    
-    
+
+
+
         if (nextTime && nextTime2) {
             const selectedHours = parseInt(selectedTime.split(':')[0]);
             const nextHours = parseInt(nextTime.split(':')[0]);
             const nextHours2 = parseInt(nextTime2.split(':')[0]);
             const diffHours = nextHours - selectedHours;
             const diffHoursSecondSlot = nextHours2 - selectedHours;
-    
-    
+
+
             //console.log("Difference in hours:", diffHours);
             //console.log("Difference in second slot:", diffHoursSecondSlot);
             //console.log("Selected time:", selectedHours);
             //console.log("Second time:", nextHours2);
-    
+
             // Desabilita opções do dropdown de duração conforme as condições
             $('#duration option').each(function () {
                 const optionValue = $(this).val();
@@ -607,21 +610,21 @@ const individualPlay = () => {
                     (diffHours == 3 && diffHoursSecondSlot == 4 && optionValue !== '1') ||
                     (diffHours == 1 && diffHoursSecondSlot >= 3 && optionValue !== '1' && optionValue !== '2')
                 //(diffHoursSecondSlot >= 4 && diffHours > 3  && optionValue !== '1' && optionValue !== '2');
-    
+
                 $(this).prop('disabled', shouldDisable);
             });
-    
+
         }
         if (nextTime && !nextTime2) {
-    
+
             const selectedHours = parseInt(selectedTime.split(':')[0]);
             const nextHours = parseInt(nextTime.split(':')[0]);
             const diffHours = nextHours - selectedHours;
-    
-    
+
+
             //console.log("Difference in hours:", diffHours);
             //console.log("Selected time:", selectedHours);
-    
+
             // Desabilita opções do dropdown de duração conforme as condições
             $('#duration option').each(function () {
                 const optionValue = $(this).val();
@@ -630,7 +633,7 @@ const individualPlay = () => {
                     (diffHours == 1 && optionValue !== '1' && optionValue !== '2')
                 $(this).prop('disabled', shouldDisable);
             });
-    
+
         }
     });
 }
